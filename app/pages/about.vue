@@ -164,14 +164,7 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: 'About – DK Personal Portfolio',
-  description: 'Learn more about DK — skills, experience, and education.',
-  ogTitle: 'About – DK Personal Portfolio',
-  ogDescription: 'Learn more about DK — skills, experience, and education.',
-  twitterCard: 'summary',
-})
-useHead({ bodyAttrs: { class: 'about' } })
+const BASE = 'https://dkthecoder.online'
 
 const [personalData, skillsFetch, experienceFetch] = await Promise.all([
   useFetch('/api/content/personal'),
@@ -186,6 +179,26 @@ const experienceList = computed(() => (experienceFetch.data.value as any[]) || [
 
 const workList = computed(() => experienceList.value.filter((e: any) => e.type === 'work'))
 const eduList = computed(() => experienceList.value.filter((e: any) => e.type === 'education'))
+
+const ogImage = computed(() => {
+  const img = info.value?.profileImageUrl || '/img/blog/edited_pp.jpg'
+  return img.startsWith('http') ? img : `${BASE}${img}`
+})
+
+useSeoMeta({
+  title: 'About – DK Personal Portfolio',
+  description: computed(() => info.value?.bio || 'Learn more about DK — skills, experience, and education.'),
+  ogTitle: 'About – DK Personal Portfolio',
+  ogDescription: computed(() => info.value?.bio || 'Learn more about DK — skills, experience, and education.'),
+  ogUrl: `${BASE}/about`,
+  ogImage,
+  twitterCard: 'summary_large_image',
+  twitterImage: ogImage,
+})
+useHead({
+  bodyAttrs: { class: 'about' },
+  link: [{ rel: 'canonical', href: `${BASE}/about` }],
+})
 
 // Stat counters
 const statsSection = ref<HTMLElement | null>(null)

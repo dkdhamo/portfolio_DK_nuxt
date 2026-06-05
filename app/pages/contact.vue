@@ -121,14 +121,22 @@
 </template>
 
 <script setup lang="ts">
+const BASE = 'https://dkthecoder.online'
+
 useSeoMeta({
   title: 'Contact – DK Personal Portfolio',
   description: 'Get in touch with DK for project inquiries and collaboration.',
   ogTitle: 'Contact – DK Personal Portfolio',
   ogDescription: 'Get in touch with DK for project inquiries and collaboration.',
+  ogUrl: `${BASE}/contact`,
+  ogImage: `${BASE}/img/blog/edited_pp.jpg`,
   twitterCard: 'summary',
+  twitterImage: `${BASE}/img/blog/edited_pp.jpg`,
 })
-useHead({ bodyAttrs: { class: 'contact' } })
+useHead({
+  bodyAttrs: { class: 'contact' },
+  link: [{ rel: 'canonical', href: `${BASE}/contact` }],
+})
 
 const { data } = await useFetch('/api/content/personal')
 const info = computed(() => (data.value as any)?.info)

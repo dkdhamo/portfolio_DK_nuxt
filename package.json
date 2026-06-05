@@ -15,6 +15,7 @@
     "@libsql/client": "latest",
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/image": "^2.0.0",
+    "@nuxtjs/sitemap": "^8.0.15",
     "@vercel/speed-insights": "^2.0.0",
     "drizzle-orm": "latest",
     "nuxt": "^4.4.6",

@@ -155,14 +155,22 @@
 </template>
 
 <script setup lang="ts">
+const BASE = 'https://dkthecoder.online'
+
 useSeoMeta({
   title: 'Portfolio – DK Personal Portfolio',
-  description: 'Browse projects by DK — web, mobile, AI, and more.',
+  description: 'Browse projects by DK — web apps, mobile apps, AI tools, and more.',
   ogTitle: 'Portfolio – DK Personal Portfolio',
-  ogDescription: 'Browse projects by DK — web, mobile, AI, and more.',
+  ogDescription: 'Browse projects by DK — web apps, mobile apps, AI tools, and more.',
+  ogUrl: `${BASE}/portfolio`,
+  ogImage: `${BASE}/img/blog/edited_pp.jpg`,
   twitterCard: 'summary_large_image',
+  twitterImage: `${BASE}/img/blog/edited_pp.jpg`,
 })
-useHead({ bodyAttrs: { class: 'portfolio' } })
+useHead({
+  bodyAttrs: { class: 'portfolio' },
+  link: [{ rel: 'canonical', href: `${BASE}/portfolio` }],
+})
 
 const { data } = await useFetch('/api/projects')
 const projectList = computed(() => (data.value as any[]) || [])
