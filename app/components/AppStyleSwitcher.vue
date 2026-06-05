@@ -23,7 +23,7 @@
 const skins = ['purple','red','blueviolet','blue','goldenrod','magenta','yellowgreen','orange','green','yellow']
 
 function setSkin(skin: string) {
-  if (process.client) {
+  if (import.meta.client) {
     const links = document.querySelectorAll('link[rel="stylesheet"][href*="/css/skins/"]')
     links.forEach(l => l.remove())
     const link = document.createElement('link')

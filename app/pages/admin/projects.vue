@@ -38,7 +38,6 @@
   </div>
 </template>
 
-<!-- Shared form component inline -->
 <script setup lang="ts">
 definePageMeta({ layout: 'admin' })
 useHead({ title: 'Projects – Admin' })

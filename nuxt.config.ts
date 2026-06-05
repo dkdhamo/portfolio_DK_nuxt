@@ -2,30 +2,41 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   future: { compatibilityVersion: 4 },
 
-  modules: ['nuxt-auth-utils'],
+  modules: [
+    'nuxt-auth-utils',
+    '@nuxt/fonts',   // downloads Google Fonts locally at build time — no external blocking request
+    '@nuxt/image',   // auto-converts images to WebP/AVIF
+  ],
 
   css: [
     '~/assets/css/style.css',
   ],
 
+  // @nuxt/fonts: auto-detects Poppins + Open Sans from style.css, serves them locally
+  fonts: {
+    defaults: {
+      preload: true,  // inject <link rel="preload"> for font files
+    },
+  },
+
+  // @nuxt/image: quality + formats; Vercel provider auto-selected via nitro preset
+  image: {
+    quality: 80,
+    format: ['webp', 'avif'],
+  },
+
   app: {
+    pageTransition: { name: 'page-fade', mode: 'out-in' },
     head: {
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ],
       link: [
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,600i,700' },
+        // Bootstrap is CRITICAL (grid layout) — must stay blocking
         { rel: 'stylesheet', href: '/css/bootstrap.min.css' },
-        { rel: 'stylesheet', href: '/css/preloader.min.css' },
-        { rel: 'stylesheet', href: '/css/circle.css' },
-        { rel: 'stylesheet', href: '/css/font-awesome.min.css' },
-        { rel: 'stylesheet', href: '/css/fm.revealator.jquery.min.css' },
-        { rel: 'stylesheet', href: '/css/styleswitcher.css' },
-      ],
-      script: [
-        { src: '/js/modernizr.custom.js' },
+        // font-awesome and circle.css are loaded deferred via plugin (not blocking)
+        // Google Fonts removed — @nuxt/fonts serves them locally
       ],
     },
   },
@@ -36,10 +47,20 @@ export default defineNuxtConfig({
     resendApiKey: process.env.RESEND_API_KEY,
     contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || 'webtechians.dev@gmail.com',
     adminGithubLogin: process.env.ADMIN_GITHUB_LOGIN,
-    public: {},
   },
 
   nitro: {
     preset: 'vercel',
+    // Gzip + Brotli compress all public assets
+    compressPublicAssets: { brotli: true, gzip: true },
+    routeRules: {
+      // Long-lived cache for all static assets (hashed filenames mean safe to cache forever)
+      '/css/**':   { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/fonts/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/img/**':   { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/js/**':    { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      // API routes: short cache, revalidate in background
+      '/api/**':   { headers: { 'cache-control': 'public, s-maxage=60, stale-while-revalidate=600' } },
+    },
   },
 })

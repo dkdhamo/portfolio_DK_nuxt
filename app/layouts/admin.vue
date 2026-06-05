@@ -7,9 +7,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
-
 <style>
 body { background: #f5f5f5 !important; }
 .admin-layout { display: flex; min-height: 100vh; }

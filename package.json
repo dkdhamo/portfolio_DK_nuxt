@@ -12,16 +12,18 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "nuxt": "^4.4.6",
     "@libsql/client": "latest",
+    "@nuxt/fonts": "^0.14.0",
+    "@nuxt/image": "^2.0.0",
     "drizzle-orm": "latest",
+    "nuxt": "^4.4.6",
     "nuxt-auth-utils": "latest",
     "resend": "latest"
   },
   "devDependencies": {
+    "@types/node": "latest",
     "drizzle-kit": "latest",
     "tsx": "latest",
-    "typescript": "latest",
-    "@types/node": "latest"
+    "typescript": "latest"
   }
 }
