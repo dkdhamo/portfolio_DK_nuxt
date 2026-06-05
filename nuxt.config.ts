@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@nuxt/fonts',   // downloads Google Fonts locally at build time — no external blocking request
     '@nuxt/image',   // auto-converts images to WebP/AVIF
+    '@vercel/speed-insights', // Vercel Speed Insights module for performance monitoring
   ],
 
   css: [
