@@ -186,10 +186,11 @@ const ogImage = computed(() => {
 })
 
 useSeoMeta({
-  title: 'About – DK Personal Portfolio',
-  description: computed(() => info.value?.bio || 'Learn more about DK — skills, experience, and education.'),
-  ogTitle: 'About – DK Personal Portfolio',
-  ogDescription: computed(() => info.value?.bio || 'Learn more about DK — skills, experience, and education.'),
+  title: 'About Dhamodhara Kannan (DK) – Software Engineer | Skills & Experience',
+  description: computed(() => info.value?.bio || 'Learn about Dhamodhara Kannan (DK) – a full-stack software engineer. Explore skills, work experience, and education.'),
+  keywords: 'Dhamodhara Kannan, DK, DK software engineer, Dhamodhara Kannan developer, full stack developer, software engineer skills, web developer experience',
+  ogTitle: 'About Dhamodhara Kannan (DK) – Software Engineer | Skills & Experience',
+  ogDescription: computed(() => info.value?.bio || 'Learn about Dhamodhara Kannan (DK) – a full-stack software engineer. Explore skills, work experience, and education.'),
   ogUrl: `${BASE}/about`,
   ogImage,
   twitterCard: 'summary_large_image',

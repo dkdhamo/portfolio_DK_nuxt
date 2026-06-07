@@ -33,7 +33,7 @@
     <!-- Mobile Navigation -->
     <nav role="navigation" aria-label="Mobile navigation" class="d-block d-lg-none">
       <div id="menuToggle">
-        <input type="checkbox" aria-label="Toggle navigation menu" />
+        <input ref="menuCheckbox" type="checkbox" aria-label="Toggle navigation menu" />
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -66,4 +66,9 @@
 
 <script setup lang="ts">
 const route = useRoute()
+const menuCheckbox = ref<HTMLInputElement | null>(null)
+
+watch(() => route.path, () => {
+  if (menuCheckbox.value) menuCheckbox.value.checked = false
+})
 </script>

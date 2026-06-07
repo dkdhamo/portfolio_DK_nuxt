@@ -158,10 +158,11 @@
 const BASE = 'https://dkthecoder.online'
 
 useSeoMeta({
-  title: 'Portfolio – DK Personal Portfolio',
-  description: 'Browse projects by DK — web apps, mobile apps, AI tools, and more.',
-  ogTitle: 'Portfolio – DK Personal Portfolio',
-  ogDescription: 'Browse projects by DK — web apps, mobile apps, AI tools, and more.',
+  title: 'Portfolio – Dhamodhara Kannan (DK) | Full Stack Developer Projects',
+  description: 'Browse projects by Dhamodhara Kannan (DK) – a full-stack software engineer. Web apps, APIs, AI tools, and more.',
+  keywords: 'Dhamodhara Kannan portfolio, DK portfolio, DK projects, Dhamodhara Kannan projects, full stack developer portfolio, web developer work',
+  ogTitle: 'Portfolio – Dhamodhara Kannan (DK) | Full Stack Developer Projects',
+  ogDescription: 'Browse projects by Dhamodhara Kannan (DK) – a full-stack software engineer. Web apps, APIs, AI tools, and more.',
   ogUrl: `${BASE}/portfolio`,
   ogImage: `${BASE}/img/blog/edited_pp.jpg`,
   twitterCard: 'summary_large_image',

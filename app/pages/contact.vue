@@ -124,10 +124,11 @@
 const BASE = 'https://dkthecoder.online'
 
 useSeoMeta({
-  title: 'Contact – DK Personal Portfolio',
-  description: 'Get in touch with DK for project inquiries and collaboration.',
-  ogTitle: 'Contact – DK Personal Portfolio',
-  ogDescription: 'Get in touch with DK for project inquiries and collaboration.',
+  title: 'Contact Dhamodhara Kannan – DK Software Engineer',
+  description: 'Get in touch with Dhamodhara Kannan (DK), a full-stack software engineer, for project inquiries, freelance work, and collaboration.',
+  keywords: 'contact Dhamodhara Kannan, contact DK, hire DK, hire Dhamodhara Kannan, freelance developer, DK software engineer contact',
+  ogTitle: 'Contact Dhamodhara Kannan – DK Software Engineer',
+  ogDescription: 'Get in touch with Dhamodhara Kannan (DK), a full-stack software engineer, for project inquiries, freelance work, and collaboration.',
   ogUrl: `${BASE}/contact`,
   ogImage: `${BASE}/img/blog/edited_pp.jpg`,
   twitterCard: 'summary',

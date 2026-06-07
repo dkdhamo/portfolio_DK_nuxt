@@ -47,17 +47,24 @@ const BASE = 'https://dkthecoder.online'
 
 const { data } = await useFetch('/api/content/personal')
 const info = computed(() => (data.value as any)?.info)
+console.log(info);
 
 const ogImage = computed(() => {
   const img = info.value?.profileImageUrl || '/img/blog/edited_pp.jpg'
   return img.startsWith('http') ? img : `${BASE}${img}`
 })
 
+const fullName = computed(() => {
+  const parts = [info.value?.firstName, info.value?.lastName].filter(Boolean)
+  return parts.length ? parts.join(' ') : 'Dhamodhara Kannan'
+})
+
 useSeoMeta({
-  title: computed(() => `${info.value?.firstName || 'DK'} – Personal Portfolio`),
-  description: computed(() => info.value?.bio || "Full-stack developer focused on crafting clean & user-friendly web experiences."),
-  ogTitle: computed(() => `${info.value?.firstName || 'DK'} – Personal Portfolio`),
-  ogDescription: computed(() => info.value?.bio || "Full-stack developer focused on crafting clean & user-friendly web experiences."),
+  title: computed(() => `${fullName.value} (DK) – Full Stack Developer Portfolio`),
+  description: computed(() => info.value?.bio || 'Portfolio of Dhamodhara Kannan, also known as DK – a full-stack software engineer crafting clean & user-friendly web experiences.'),
+  keywords: 'Dhamodhara Kannan, DK, DK portfolio, DK software engineer, Dhamodhara Kannan software engineer, Dhamodhara Kannan portfolio, full stack developer, web developer',
+  ogTitle: computed(() => `${fullName.value} (DK) – Full Stack Developer Portfolio`),
+  ogDescription: computed(() => info.value?.bio || 'Portfolio of Dhamodhara Kannan, also known as DK – a full-stack software engineer crafting clean & user-friendly web experiences.'),
   ogUrl: `${BASE}/`,
   ogImage,
   twitterCard: 'summary_large_image',
@@ -66,20 +73,33 @@ useSeoMeta({
 useHead({
   bodyAttrs: { class: 'home' },
   link: [{ rel: 'canonical', href: `${BASE}/` }],
-  script: [{
-    type: 'application/ld+json',
-    innerHTML: computed(() => JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: [info.value?.firstName, info.value?.lastName].filter(Boolean).join(' ') || 'DK',
-      url: BASE,
-      jobTitle: info.value?.title || 'Full Stack Developer',
-      description: info.value?.bio || '',
-      email: info.value?.contactEmail || info.value?.email || '',
-      sameAs: [info.value?.linkedinUrl, info.value?.twitterUrl].filter(Boolean),
-      image: ogImage.value,
-    })),
-  }],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: fullName.value,
+        alternateName: 'DK',
+        url: BASE,
+        jobTitle: info.value?.title || 'Full Stack Developer',
+        description: info.value?.bio || '',
+        email: info.value?.contactEmail || info.value?.email || '',
+        sameAs: [info.value?.linkedinUrl, info.value?.twitterUrl].filter(Boolean),
+        image: ogImage.value,
+      })),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Dhamodhara Kannan Portfolio',
+        alternateName: 'DK Portfolio',
+        url: BASE,
+      }),
+    },
+  ],
 })
 
 const phrases = computed<string[]>(() => {
