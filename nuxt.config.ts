@@ -2,6 +2,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   future: { compatibilityVersion: 4 },
 
+  // Required by @nuxtjs/sitemap v8 to generate absolute URLs
+  site: {
+    url: 'https://dkthecoder.online',
+    name: 'Dhamodhara Kannan Portfolio',
+  },
+
   modules: [
     'nuxt-auth-utils',
     '@nuxt/fonts',
@@ -12,6 +18,12 @@ export default defineNuxtConfig({
 
   sitemap: {
     exclude: ['/admin', '/admin/**'],
+    urls: [
+      { loc: '/',          priority: 1.0, changefreq: 'monthly' },
+      { loc: '/about',     priority: 0.9, changefreq: 'monthly' },
+      { loc: '/portfolio', priority: 0.8, changefreq: 'weekly'  },
+      { loc: '/contact',   priority: 0.7, changefreq: 'yearly'  },
+    ],
   },
 
   css: [
