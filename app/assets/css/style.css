@@ -1851,3 +1851,7 @@ body.light hr.separator {
     transition: none !important;
   }
 }
+
+table{
+  color: black;
+}
