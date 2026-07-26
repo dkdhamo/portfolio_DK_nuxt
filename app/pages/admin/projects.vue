@@ -5,7 +5,7 @@
     <!-- Add Project -->
     <div class="admin-card">
       <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Add Project</h3>
-      <ProjectForm v-model="newProject" />
+      <AdminProjectForm v-model="newProject" />
       <button @click="addProject" :disabled="adding" class="admin-btn admin-btn-primary mt-2">
         {{ adding ? 'Adding...' : 'Add Project' }}
       </button>
@@ -14,7 +14,7 @@
     <!-- Projects List -->
     <div class="admin-card" v-for="project in projectList" :key="project.id">
       <template v-if="editing === project.id">
-        <ProjectForm v-model="editForm" />
+        <AdminProjectForm v-model="editForm" />
         <div class="mt-2">
           <button @click="saveEdit(project.id)" class="admin-btn admin-btn-primary" style="margin-right:8px;">Save</button>
           <button @click="editing = null" class="admin-btn admin-btn-secondary">Cancel</button>
