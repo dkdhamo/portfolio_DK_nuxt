@@ -79,6 +79,8 @@ export default defineNuxtConfig({
       '/js/**':    { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
       // API routes: short cache, revalidate in background
       '/api/**':   { headers: { 'cache-control': 'public, s-maxage=60, stale-while-revalidate=600' } },
+      // Admin API routes are per-session and must never be cached/shared via the CDN
+      '/api/admin/**': { headers: { 'cache-control': 'private, no-store' } },
     },
   },
 })

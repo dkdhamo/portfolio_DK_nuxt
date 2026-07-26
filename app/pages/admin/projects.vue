@@ -42,7 +42,7 @@
 definePageMeta({ layout: 'admin' })
 useHead({ title: 'Projects – Admin' })
 
-const { data, refresh } = await useFetch('/api/projects')
+const { data, refresh } = await useFetch('/api/admin/projects')
 const projectList = computed(() => (data.value as any[]) || [])
 
 const emptyProject = () => ({
