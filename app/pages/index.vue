@@ -47,7 +47,6 @@ const BASE = 'https://dkthecoder.online'
 
 const { data } = await useFetch('/api/content/personal')
 const info = computed(() => (data.value as any)?.info)
-console.log(info);
 
 const ogImage = computed(() => {
   const img = info.value?.profileImageUrl || '/img/blog/edited_pp.jpg'
