@@ -86,6 +86,19 @@ export default defineNuxtConfig({
       '/api/content/**': { headers: { 'cache-control': 'no-store' } },
       // Admin API routes are per-session and must never be cached/shared via the CDN
       '/api/admin/**': { headers: { 'cache-control': 'private, no-store' } },
+
+      // Public pages: ISR on Vercel. Every request currently re-queries Turso
+      // (personal_info/highlights/skills/experience/projects) even though the
+      // content only changes when the admin panel is used — serve the cached
+      // render instead and regenerate at most once a minute, so a visitor's
+      // TTFB doesn't depend on a database round trip. An edit in /admin can
+      // take up to ~60s to appear on the live pages as a result; /admin itself
+      // is untouched by this and always renders fresh.
+      '/':              { isr: 60 },
+      '/about':         { isr: 60 },
+      '/portfolio':     { isr: 60 },
+      '/portfolio/**':  { isr: 60 },
+      '/contact':       { isr: 60 },
     },
   },
 })

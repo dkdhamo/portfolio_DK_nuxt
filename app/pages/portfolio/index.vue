@@ -72,6 +72,24 @@ useHead({
 const { data } = await useFetch('/api/projects')
 const projectList = computed(() => (data.value as any[]) || [])
 
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: projectList.value.map((p: any, i: number) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${BASE}/portfolio/${p.slug}`,
+          name: p.title,
+        })),
+      })),
+    },
+  ],
+})
+
 const activeFilter = ref('All')
 const categories = computed(() => {
   const types = projectList.value.map((p: any) => p.projectType).filter(Boolean)

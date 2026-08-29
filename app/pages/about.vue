@@ -17,7 +17,7 @@
             </template>
             <template v-else>
               <div class="d-block d-sm-none mb-4">
-                <NuxtImg :src="info?.profileImageUrl || '/img/blog/edited_pp.jpg'" class="img-fluid main-img-mobile" alt="Profile photo" width="270" height="270" format="webp" quality="85" loading="lazy" />
+                <NuxtImg :src="info?.profileImageUrl || '/img/blog/edited_pp.jpg'" class="img-fluid main-img-mobile" alt="Dhamodhara Kannan (DK), full stack engineer" width="270" height="270" format="webp" quality="85" loading="lazy" />
               </div>
 
               <p v-if="info?.currentRole" class="about-role open-sans-font">{{ info.currentRole }}</p>

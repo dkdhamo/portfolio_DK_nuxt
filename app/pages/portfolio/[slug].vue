@@ -120,13 +120,9 @@ const gallery = computed((): string[] => {
 })
 
 // "Next" link, so a reader who finishes one case study has somewhere to go.
-const { data: allProjects } = await useFetch('/api/projects')
-const nextProject = computed(() => {
-  const list = (allProjects.value as any[]) || []
-  const idx = list.findIndex((p) => p.slug === slug.value)
-  if (idx === -1 || list.length < 2) return null
-  return list[(idx + 1) % list.length]
-})
+// The API computes this alongside the project row, so it doesn't cost a
+// second round trip fetching every other project's full case-study body.
+const nextProject = computed(() => project.value?.next ?? null)
 
 const ogImage = computed(() => {
   const img = project.value?.thumbnailUrl || '/img/blog/edited_pp.jpg'
@@ -156,7 +152,19 @@ useHead({
         description: project.value.summary || '',
         url: `${BASE}/portfolio/${slug.value}`,
         image: ogImage.value,
-        author: { '@type': 'Person', name: 'Dhamodhara Kannan' },
+        author: { '@type': 'Person', name: 'Dhamodhara Kannan', alternateName: 'DK', url: BASE },
+      })),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+          { '@type': 'ListItem', position: 2, name: 'Work', item: `${BASE}/portfolio` },
+          { '@type': 'ListItem', position: 3, name: project.value.title, item: `${BASE}/portfolio/${slug.value}` },
+        ],
       })),
     },
   ],

@@ -1811,3 +1811,102 @@ body.light .highlight__label { color: #777; }
   .title-section--case-study h1 { font-size: 26px; }
   .title-section--case-study { padding: 40px 0 30px; }
 }
+
+/* The hamburger toggle (#menuToggle) is a fixed overlay any time it's
+   visible, at every width up to 991px — reserve room so a long case-study
+   title's text never runs under its icon on first view. */
+@media (max-width: 991px) {
+  .title-section--case-study h1 { padding-right: 74px; }
+}
+
+@media (max-width: 576px) {
+  /* Below 576px .title-section normally becomes a fixed one-line bar sized
+     for short headings like "ABOUT ME", compensated for by a fixed
+     .main-content padding-top. Case-study titles are longer and can wrap
+     to two lines, which would either overflow that fixed-height bar or
+     get hidden behind it — so let this one sit in normal flow instead. */
+  .title-section--case-study {
+    position: static;
+    padding: 28px 25px 22px;
+  }
+
+  .title-section--case-study h1 {
+    font-size: 22px;
+    padding-right: 64px;
+  }
+
+  .title-section--case-study ~ .main-content {
+    padding-top: 24px;
+  }
+}
+
+/* --- Site footer ---------------------------------------------- */
+.site-footer {
+  padding: 28px 25px;
+  text-align: center;
+  border-top: 1px solid #252525;
+  position: relative;
+  z-index: 2;
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.site-footer__identity {
+  font-size: 13px;
+  color: #999;
+  letter-spacing: 0.3px;
+}
+
+.site-footer__alias {
+  color: #777;
+}
+
+.site-footer__copy {
+  font-size: 12px;
+  color: #666;
+}
+
+body.light .site-footer {
+  border-top-color: #e4e4e4;
+}
+
+body.light .site-footer__identity {
+  color: #666;
+}
+
+body.light .site-footer__alias,
+body.light .site-footer__copy {
+  color: #999;
+}
+
+@media (min-width: 992px) {
+  /* Leave room clear of the fixed right-side icon nav so the footer text
+     doesn't run under it on desktop. */
+  .site-footer {
+    padding-right: 110px;
+  }
+}
+
+@media (max-width: 991px) {
+  /* The scroll-to-top button is fixed at bottom:28/right:24 (42px) on every
+     width — since the footer is the last thing on the page, its own bottom
+     edge sits exactly where that button floats unless given real clearance. */
+  .site-footer {
+    padding-bottom: 92px;
+  }
+}
+
+/* --- Hero name alias ("(DK)") ----------------------------------- */
+.home-details h1 .hero-alias {
+  display: inline-block;
+  font-size: 0.45em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--accent);
+  vertical-align: middle;
+  margin-left: 4px;
+}

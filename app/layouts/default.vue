@@ -3,6 +3,7 @@
     <AppPreloader />
     <AppHeader />
     <slot />
+    <AppFooter />
     <AppScrollTop />
     <AppToast />
   </div>

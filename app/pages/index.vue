@@ -9,7 +9,7 @@
           <NuxtImg
             :src="info?.profileImageUrl || '/img/blog/edited_pp.jpg'"
             class="img-fluid main-img-mobile d-sm-block d-lg-none"
-            alt="Profile picture"
+            alt="Dhamodhara Kannan (DK), full stack engineer"
             fetchpriority="high"
             loading="eager"
             width="400"
@@ -20,6 +20,7 @@
           <h6 class="text-uppercase open-sans-font mb-0 d-block d-sm-none d-lg-block">hi there !</h6>
           <h1 class="text-uppercase poppins-font">
             <span>I'm</span> {{ info?.firstName ? info.firstName.split(' ')[0] : 'DK' }}
+            <span class="hero-alias">(DK)</span>
           </h1>
           <div class="typewriter-line open-sans-font">
             <span>{{ twDisplay }}</span><span class="typewriter-cursor"></span>
