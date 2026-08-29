@@ -29,16 +29,13 @@
                   <ul class="about-list list-unstyled open-sans-font">
                     <li><span class="title">first name :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.firstName }}</span></li>
                     <li><span class="title">last name :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.lastName }}</span></li>
-                    <li><span class="title">Age :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.age }} Years</span></li>
-                    <li><span class="title">Nationality :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.nationality }}</span></li>
-                    <li><span class="title">Freelance :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.freelanceAvailable ? 'Available' : 'Not Available' }}</span></li>
+                    <li><span class="title">City :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.city }}</span></li>
                   </ul>
                 </div>
                 <div class="col-6">
                   <ul class="about-list list-unstyled open-sans-font">
-                    <li><span class="title">City :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.city }}</span></li>
-                    <li><span class="title">Phone :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.phone }}</span></li>
                     <li><span class="title">Email :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.email }}</span></li>
+                    <li><span class="title">Phone :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.phone }}</span></li>
                     <li><span class="title">Language :</span> <span class="value d-block d-sm-inline-block d-lg-block d-xl-inline-block">{{ info?.language }}</span></li>
                   </ul>
                 </div>
@@ -53,27 +50,15 @@
           <div ref="statsSection" class="col-12 col-lg-7 col-xl-6 mt-5 mt-lg-0">
             <div class="row">
               <div class="col-6">
-                <div class="box-stats with-margin">
+                <div class="box-stats">
                   <h3 class="poppins-font position-relative" :aria-label="`${yearsTarget} years of experience`">{{ yearsCount.displayed.value }}</h3>
                   <p class="open-sans-font m-0 position-relative text-uppercase" aria-hidden="true">years of <span class="d-block">experience</span></p>
                 </div>
               </div>
               <div class="col-6">
-                <div class="box-stats with-margin">
+                <div class="box-stats">
                   <h3 class="poppins-font position-relative" :aria-label="`${projectsTarget} completed projects`">{{ projectsCount.displayed.value }}</h3>
                   <p class="open-sans-font m-0 position-relative text-uppercase" aria-hidden="true">completed <span class="d-block">projects</span></p>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="box-stats">
-                  <h3 class="poppins-font position-relative" :aria-label="`${clientsTarget} happy clients`">{{ clientsCount.displayed.value }}</h3>
-                  <p class="open-sans-font m-0 position-relative text-uppercase" aria-hidden="true">happy <span class="d-block">clients</span></p>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="box-stats">
-                  <h3 class="poppins-font position-relative" :aria-label="`${awardsTarget} awards won`">{{ awardsCount.displayed.value }}</h3>
-                  <p class="open-sans-font m-0 position-relative text-uppercase" aria-hidden="true">awards <span class="d-block">won</span></p>
                 </div>
               </div>
             </div>
@@ -91,24 +76,12 @@
             <div class="col-12"><AppSkeleton :lines="3" /></div>
           </template>
           <template v-else>
-            <div
-              v-for="skill in skillsList"
-              :key="skill.id"
-              class="col-6 col-md-3 mb-3 mb-sm-5"
-            >
-              <div
-                class="c100"
-                :class="[`p${skill.percentage}`, { animate: skillsVisible }]"
-                role="img"
-                :aria-label="`${skill.name}: ${skill.percentage}%`"
-              >
-                <span aria-hidden="true">{{ skill.percentage }}%</span>
-                <div class="slice" aria-hidden="true">
-                  <div class="bar"></div>
-                  <div class="fill"></div>
-                </div>
-              </div>
-              <h6 class="text-uppercase open-sans-font text-center mt-2 mt-sm-4">{{ skill.name }}</h6>
+            <div class="col-12">
+              <ul class="skill-tags list-unstyled">
+                <li v-for="skill in skillsList" :key="skill.id" class="skill-tag open-sans-font">
+                  {{ skill.name }}
+                </li>
+              </ul>
             </div>
           </template>
         </div>
@@ -207,26 +180,7 @@ useHead({
 const statsSection = ref<HTMLElement | null>(null)
 const yearsTarget = computed(() => Number(statsData.value?.yearsExperience) || 0)
 const projectsTarget = computed(() => Number(statsData.value?.completedProjects) || 0)
-const clientsTarget = computed(() => Number(statsData.value?.happyClients) || 0)
-const awardsTarget = computed(() => Number(statsData.value?.awardsWon) || 0)
 
 const yearsCount = useCountUp(statsSection, yearsTarget)
 const projectsCount = useCountUp(statsSection, projectsTarget)
-const clientsCount = useCountUp(statsSection, clientsTarget)
-const awardsCount = useCountUp(statsSection, awardsTarget)
-
-// Skills circle entrance animation
-const skillsVisible = ref(false)
-
-onMounted(() => {
-  const skillsEl = document.querySelector('.c100') as HTMLElement | null
-  if (!skillsEl) return
-  const observer = new IntersectionObserver(([entry]) => {
-    if (entry?.isIntersecting) {
-      skillsVisible.value = true
-      observer.disconnect()
-    }
-  }, { threshold: 0.1 })
-  observer.observe(skillsEl.parentElement?.parentElement || skillsEl)
-})
 </script>

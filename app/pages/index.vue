@@ -24,7 +24,7 @@
           <div class="typewriter-line open-sans-font">
             <span>{{ twDisplay }}</span><span class="typewriter-cursor"></span>
           </div>
-          <p class="open-sans-font mt-2">{{ info?.bio || "I'm a full-stack developer focused on crafting clean & user‑friendly experiences." }}</p>
+          <p class="open-sans-font mt-2">{{ heroTagline }}</p>
 
           <div class="home-social">
             <a v-if="info?.linkedinUrl" :href="info.linkedinUrl" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -56,6 +56,13 @@ const ogImage = computed(() => {
 const fullName = computed(() => {
   const parts = [info.value?.firstName, info.value?.lastName].filter(Boolean)
   return parts.length ? parts.join(' ') : 'Dhamodhara Kannan'
+})
+
+const heroTagline = computed(() => {
+  const bio = info.value?.bio || ''
+  if (!bio) return "I'm a full-stack developer focused on crafting clean & user‑friendly experiences."
+  const firstSentence = bio.match(/^.*?[.!?](?=\s|$)/)?.[0]
+  return firstSentence || bio.slice(0, 140)
 })
 
 useSeoMeta({

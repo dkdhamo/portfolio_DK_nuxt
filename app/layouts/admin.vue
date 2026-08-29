@@ -8,8 +8,7 @@
 </template>
 
 <style>
-body { background: #f5f5f5 !important; }
-.admin-layout { display: flex; min-height: 100vh; }
+.admin-layout { display: flex; min-height: 100vh; background: #f5f5f5; }
 .admin-main { margin-left: 240px; flex: 1; padding: 32px; }
 @media (max-width: 768px) {
   .admin-main { margin-left: 0; padding: 16px; }

@@ -21,12 +21,6 @@
             <input v-model="form.title" class="admin-input" required />
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="admin-form-group">
-            <label class="admin-label">Age</label>
-            <input v-model="form.age" class="admin-input" />
-          </div>
-        </div>
         <div class="col-12">
           <div class="admin-form-group">
             <label class="admin-label">Bio (shown on home page)</label>
@@ -57,25 +51,10 @@
             <input v-model="form.contactEmail" type="email" class="admin-input" />
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="admin-form-group">
-            <label class="admin-label">Nationality</label>
-            <input v-model="form.nationality" class="admin-input" />
-          </div>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="admin-form-group">
             <label class="admin-label">Language</label>
             <input v-model="form.language" class="admin-input" />
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="admin-form-group">
-            <label class="admin-label">Freelance Available</label>
-            <select v-model="form.freelanceAvailable" class="admin-input">
-              <option :value="true">Yes</option>
-              <option :value="false">No</option>
-            </select>
           </div>
         </div>
         <div class="col-12">
@@ -126,18 +105,6 @@
           <div class="admin-form-group">
             <label class="admin-label">Completed Projects</label>
             <input v-model.number="form.stats.completedProjects" type="number" class="admin-input" />
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="admin-form-group">
-            <label class="admin-label">Happy Clients</label>
-            <input v-model.number="form.stats.happyClients" type="number" class="admin-input" />
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="admin-form-group">
-            <label class="admin-label">Awards Won</label>
-            <input v-model.number="form.stats.awardsWon" type="number" class="admin-input" />
           </div>
         </div>
       </div>
