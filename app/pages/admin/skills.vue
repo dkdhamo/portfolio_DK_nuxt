@@ -31,6 +31,7 @@
 
     <!-- Skills List -->
     <div class="admin-card">
+      <div class="admin-table-wrap">
       <table class="admin-table">
         <thead>
           <tr>
@@ -67,6 +68,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>

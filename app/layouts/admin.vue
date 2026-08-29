@@ -9,9 +9,11 @@
 
 <style>
 .admin-layout { display: flex; min-height: 100vh; background: #f5f5f5; }
-.admin-main { margin-left: 240px; flex: 1; padding: 32px; }
+.admin-main { margin-left: 240px; flex: 1; padding: 32px; min-width: 0; }
 @media (max-width: 768px) {
-  .admin-main { margin-left: 0; padding: 16px; }
+  /* Top padding clears the fixed hamburger toggle (44px, top:14/left:14)
+     that AdminSidebar renders at this width. */
+  .admin-main { margin-left: 0; padding: 76px 16px 16px; }
 }
 .admin-card {
   background: #fff;
@@ -21,9 +23,16 @@
   margin-bottom: 24px;
 }
 .admin-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #1a1a2e; }
+/* Wraps every <table class="admin-table"> — cards on mobile are narrower
+   than a table with 4+ columns of text plus Edit/Delete buttons, so let it
+   scroll horizontally inside its own card instead of breaking out of it. */
+.admin-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .admin-table { width: 100%; border-collapse: collapse; }
-.admin-table th, .admin-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: left; font-size: 14px; }
+.admin-table th, .admin-table td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: left; font-size: 14px; white-space: nowrap; }
 .admin-table th { background: #f8f8f8; font-weight: 600; color: #444; }
+@media (max-width: 768px) {
+  .admin-table th, .admin-table td { padding: 8px 10px; font-size: 13px; }
+}
 .admin-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 500; transition: 0.2s; }
 .admin-btn-primary { background: #1a1a2e; color: #fff; }
 .admin-btn-primary:hover { background: #2a2a5e; }

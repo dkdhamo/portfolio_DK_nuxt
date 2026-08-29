@@ -151,10 +151,18 @@ async function deleteExp(id: number) {
 
 <style scoped>
 .exp-item { margin-bottom: 4px; }
-.exp-row { display: flex; align-items: center; justify-content: space-between; }
-.exp-info { display: flex; align-items: flex-start; gap: 14px; }
-.exp-icon { font-size: 20px; color: #1a1a2e; margin-top: 2px; }
+.exp-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.exp-info { display: flex; align-items: flex-start; gap: 14px; min-width: 0; }
+.exp-icon { font-size: 20px; color: #1a1a2e; margin-top: 2px; flex-shrink: 0; }
 .exp-year { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 .exp-title { font-size: 15px; font-weight: 700; color: #1a1a2e; }
 .exp-company { font-size: 13px; color: #666; }
+.exp-actions { flex-shrink: 0; }
+
+@media (max-width: 480px) {
+  /* Title + Edit/Delete were squeezing into two tight columns on phones —
+     stack them instead of fighting for width. */
+  .exp-row { flex-direction: column; align-items: flex-start; }
+  .exp-actions { align-self: flex-start; }
+}
 </style>

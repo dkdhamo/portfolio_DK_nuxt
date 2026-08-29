@@ -1,5 +1,18 @@
 <template>
-  <nav class="admin-sidebar">
+  <button
+    class="admin-menu-toggle"
+    type="button"
+    :aria-expanded="open"
+    aria-controls="admin-sidebar"
+    aria-label="Toggle admin menu"
+    @click="open = !open"
+  >
+    <i class="fa" :class="open ? 'fa-times' : 'fa-bars'" aria-hidden="true"></i>
+  </button>
+
+  <div v-if="open" class="admin-sidebar-backdrop" @click="open = false"></div>
+
+  <nav id="admin-sidebar" class="admin-sidebar" :class="{ 'admin-sidebar--open': open }">
     <div class="admin-sidebar-brand">
       <span>DK Admin</span>
     </div>
@@ -54,6 +67,10 @@
 
 <script setup lang="ts">
 const { user } = useUserSession()
+
+const open = ref(false)
+const route = useRoute()
+watch(() => route.path, () => { open.value = false })
 </script>
 
 <style scoped>
@@ -106,4 +123,51 @@ const { user } = useUserSession()
 .admin-avatar { width: 32px; height: 32px; border-radius: 50%; }
 .admin-logout { color: #aaa; text-decoration: none; font-size: 13px; }
 .admin-logout:hover { color: #fff; }
+
+.admin-menu-toggle { display: none; }
+.admin-sidebar-backdrop { display: none; }
+
+@media (max-width: 768px) {
+  /* The sidebar was permanently fixed and visible at every width, covering
+     roughly two-thirds of a phone screen with no way to dismiss it — the
+     rest of the admin panel was squeezed into an unreadable sliver. Move it
+     off-canvas by default and open it with a toggle, matching the pattern
+     the public site's mobile nav already uses. */
+  .admin-sidebar {
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .admin-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .admin-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 1001;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    border: none;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .admin-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
 </style>

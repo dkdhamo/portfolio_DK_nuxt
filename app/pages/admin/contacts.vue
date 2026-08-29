@@ -49,7 +49,7 @@ function formatDate(ts: number | string) {
 .message-item { padding: 16px 0; border-bottom: 1px solid #eee; }
 .message-item:last-child { border-bottom: none; }
 .message-item.unread { background: #fafafa; border-left: 3px solid #1a1a2e; padding-left: 12px; margin-left: -12px; }
-.message-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.message-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
 .message-from { display: flex; flex-direction: column; gap: 2px; }
 .message-from strong { font-size: 14px; color: #1a1a2e; }
 .message-email { font-size: 12px; color: #888; }

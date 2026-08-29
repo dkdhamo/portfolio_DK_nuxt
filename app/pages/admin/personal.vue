@@ -119,6 +119,7 @@
         </div>
       </div>
 
+      <div class="admin-table-wrap">
       <table class="admin-table">
         <thead>
           <tr><th>Value</th><th>Label</th><th>Order</th><th>Actions</th></tr>
@@ -150,6 +151,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>

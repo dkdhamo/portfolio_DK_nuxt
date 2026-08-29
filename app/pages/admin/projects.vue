@@ -106,10 +106,19 @@ async function deleteProject(id: number) {
 
 <style scoped>
 .project-row { display: flex; align-items: center; gap: 16px; }
-.project-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; background: #eee; }
-.project-info { flex: 1; }
+.project-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; background: #eee; flex-shrink: 0; }
+.project-info { flex: 1; min-width: 0; }
 .project-title { font-size: 15px; font-weight: 700; color: #1a1a2e; }
 .project-meta { font-size: 13px; color: #666; margin-top: 2px; }
 .project-slug { display: inline-block; font-size: 12px; color: #4a6cf7; margin-top: 4px; }
 .project-warn { font-size: 12px; color: #b45309; margin-top: 4px; }
+.project-actions { flex-shrink: 0; }
+
+@media (max-width: 480px) {
+  /* Thumbnail + multi-line title + Edit/Delete were all fighting for width
+     in one centered row — wrap the actions onto their own row below. */
+  .project-row { flex-wrap: wrap; }
+  .project-thumb { width: 64px; height: 48px; }
+  .project-actions { flex-basis: 100%; display: flex; gap: 8px; margin-top: 4px; }
+}
 </style>
