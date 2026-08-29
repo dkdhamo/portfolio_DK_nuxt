@@ -1,7 +1,7 @@
 # DK Portfolio – Nuxt 4
 
-Full-stack personal portfolio with admin panel.  
-Same design as the original static site, now fully dynamic with a SQLite cloud database.
+Full-stack personal portfolio with an admin panel, backed by a SQLite cloud database.
+Work is presented as case studies at `/portfolio/<slug>` rather than a plain image gallery.
 
 ## Stack
 - **Nuxt 4** – Framework  
@@ -95,10 +95,10 @@ Visit `/admin` → Login with GitHub (only your GitHub account is allowed).
 
 | Page | What you can do |
 |------|----------------|
-| `/admin/personal` | Edit name, bio, city, email, social links, stats boxes |
-| `/admin/skills` | Add, edit, delete, reorder skill circles |
+| `/admin/personal` | Edit name, bio, current role, focus, contact details, links, and the "Selected impact" metrics |
+| `/admin/skills` | Add, edit, delete, reorder skills — `category` groups them on the About page |
 | `/admin/experience` | Add, edit, delete experience/education timeline entries |
-| `/admin/projects` | Add, edit, delete portfolio projects |
+| `/admin/projects` | Add, edit, delete case studies (slug, summary, problem / what I built / outcome, gallery) |
 | `/admin/resume` | Update CV/resume download URL |
 | `/admin/contacts` | Read contact form submissions |
 
@@ -120,3 +120,57 @@ npm run db:push      # Sync schema to Turso
 npm run db:seed      # Seed database with portfolio data
 npm run db:studio    # Open Drizzle Studio (DB GUI)
 ```
+
+---
+
+## Theming
+
+The accent colour is a single CSS custom property in `app/assets/css/style.css`:
+
+```css
+:root { --accent: #fa5b0f; }
+```
+
+The runtime style switcher and its ten skin stylesheets were removed — change the
+token to restyle the site.
+
+---
+
+## Adding a case study
+
+Each project is a case study. Beyond the title and images, fill in:
+
+| Field | What it is |
+|-------|-----------|
+| `slug` | URL segment — `/portfolio/<slug>` |
+| `summary` | One line, shown on the work index card |
+| `problem` | What was broken, slow, or missing before |
+| `approach` | The design decisions and what you shipped |
+| `outcome` | The result — lead with a number where you have one |
+
+Projects with an empty `summary` or `outcome` are flagged in `/admin/projects`,
+because the index card looks empty without them.
+
+Backend and tooling projects with no UI to screenshot use hand-drawn SVG covers in
+`public/img/projects/`. `AppProjectImage` serves those directly, since Vercel's image
+optimiser rejects SVG; raster screenshots still go through `@nuxt/image`.
+
+---
+
+## Local database (try schema changes before touching production)
+
+`npm run db:push` and `npm run db:seed` read `.env`, which points at **production
+Turso**. To work against a throwaway SQLite file instead:
+
+```bash
+npm run db:push:local   # apply the schema to .data/local.db
+npm run db:seed:local   # fill it with the seed content
+npm run dev:local       # run the dev server against it
+```
+
+`.env.local` is a copy of `.env` with the database URL swapped for
+`file:.data/local.db`; both it and `.data/` are gitignored. In dev the
+`server/middleware/dev-auth.ts` middleware signs you in automatically, so
+`/admin` works locally without the GitHub OAuth round trip.
+
+To reset, delete `.data/local.db` and run the two db commands again.

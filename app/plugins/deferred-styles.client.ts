@@ -1,10 +1,8 @@
 // Load non-critical CSS after first paint to eliminate render-blocking
 // font-awesome: icon fonts — not needed for layout, can load after paint
-// circle.css: only used on /about skill circles — not needed for first paint
 export default defineNuxtPlugin(() => {
   const sheets = [
     '/css/font-awesome.min.css',
-    '/css/circle.css',
   ]
 
   function loadSheet(href: string) {

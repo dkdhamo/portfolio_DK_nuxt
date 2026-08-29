@@ -1,12 +1,12 @@
 import { useDb } from '../../database/client'
-import { personalInfo, stats } from '../../database/schema'
-import { eq } from 'drizzle-orm'
+import { personalInfo, highlights } from '../../database/schema'
+import { asc, eq } from 'drizzle-orm'
 
 export default defineEventHandler(async () => {
   const db = useDb()
-  const [info, stat] = await Promise.all([
+  const [info, highlightList] = await Promise.all([
     db.select().from(personalInfo).where(eq(personalInfo.id, 1)).get(),
-    db.select().from(stats).where(eq(stats.id, 1)).get(),
+    db.select().from(highlights).orderBy(asc(highlights.sortOrder)),
   ])
-  return { info, stats: stat }
+  return { info, highlights: highlightList }
 })

@@ -9,7 +9,10 @@
     "preview": "nuxt preview",
     "db:push": "drizzle-kit push",
     "db:seed": "npx tsx server/database/seed.ts",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "dev:local": "nuxt dev --dotenv .env.local",
+    "db:push:local": "drizzle-kit push --config=drizzle.local.config.ts",
+    "db:seed:local": "tsx server/database/seed.ts --local"
   },
   "dependencies": {
     "@libsql/client": "latest",

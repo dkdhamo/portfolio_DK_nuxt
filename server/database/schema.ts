@@ -6,34 +6,34 @@ export const personalInfo = sqliteTable('personal_info', {
   lastName: text('last_name').notNull(),
   title: text('title').notNull(),
   bio: text('bio').notNull(),
+  // Short line under the name on /about — "Software Engineer at TransPerfect, Chennai"
+  currentRole: text('current_role').notNull().default(''),
+  // What kind of work you take on, in one sentence
+  focus: text('focus').notNull().default(''),
   city: text('city').notNull(),
   phone: text('phone').notNull(),
   email: text('email').notNull(),
-  age: text('age').notNull(),
-  nationality: text('nationality').notNull(),
-  language: text('language').notNull(),
-  freelanceAvailable: integer('freelance_available', { mode: 'boolean' }).notNull().default(true),
   cvUrl: text('cv_url').notNull(),
   profileImageUrl: text('profile_image_url').notNull(),
   contactEmail: text('contact_email').notNull(),
-  facebookUrl: text('facebook_url').default(''),
-  twitterUrl: text('twitter_url').default(''),
   linkedinUrl: text('linkedin_url').default(''),
-  dribbbleUrl: text('dribbble_url').default(''),
+  githubUrl: text('github_url').default(''),
 })
 
-export const stats = sqliteTable('stats', {
-  id: integer('id').primaryKey(),
-  yearsExperience: integer('years_experience').notNull().default(2),
-  completedProjects: integer('completed_projects').notNull().default(5),
-  happyClients: integer('happy_clients').notNull().default(3),
-  awardsWon: integer('awards_won').notNull().default(3),
+// Impact metrics shown on /about. Free-form label/value so they can say
+// "40% → 85%" rather than only counting whole numbers.
+export const highlights = sqliteTable('highlights', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  value: text('value').notNull(),
+  label: text('label').notNull(),
+  sortOrder: integer('sort_order').notNull().default(0),
 })
 
 export const skills = sqliteTable('skills', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
-  percentage: integer('percentage').notNull(),
+  // Groups the tag cloud into readable columns: Backend, Frontend, Data, Platform
+  category: text('category').notNull().default('Other'),
   sortOrder: integer('sort_order').notNull().default(0),
 })
 
@@ -49,11 +49,21 @@ export const experience = sqliteTable('experience', {
 
 export const projects = sqliteTable('projects', {
   id: integer('id').primaryKey({ autoIncrement: true }),
+  // URL segment for /portfolio/<slug>
+  slug: text('slug').notNull().unique(),
   title: text('title').notNull(),
   projectType: text('project_type').notNull(),
   client: text('client').notNull(),
   tools: text('tools').notNull(),
+  year: text('year').notNull().default(''),
+  // One line on the grid card and in search results
+  summary: text('summary').notNull().default(''),
+  // Case study body — the three questions a reader actually has
+  problem: text('problem').notNull().default(''),
+  approach: text('approach').notNull().default(''),
+  outcome: text('outcome').notNull().default(''),
   previewUrl: text('preview_url').default(''),
+  repoUrl: text('repo_url').default(''),
   thumbnailUrl: text('thumbnail_url').notNull(),
   images: text('images').notNull().default('[]'),
   sortOrder: integer('sort_order').notNull().default(0),

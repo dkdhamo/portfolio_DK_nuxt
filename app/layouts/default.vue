@@ -1,7 +1,6 @@
 <template>
   <div>
     <AppPreloader />
-    <AppStyleSwitcher />
     <AppHeader />
     <slot />
     <AppScrollTop />

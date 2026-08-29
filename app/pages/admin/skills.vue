@@ -11,8 +11,11 @@
           <input v-model="newSkill.name" class="admin-input" placeholder="e.g. React.js / TypeScript" />
         </div>
         <div class="col-md-3">
-          <label class="admin-label">Percentage (0–100)</label>
-          <input v-model.number="newSkill.percentage" type="number" min="0" max="100" class="admin-input" />
+          <label class="admin-label">Category</label>
+          <input v-model="newSkill.category" class="admin-input" list="skill-categories" placeholder="e.g. Backend" />
+          <datalist id="skill-categories">
+            <option v-for="c in existingCategories" :key="c" :value="c" />
+          </datalist>
         </div>
         <div class="col-md-2">
           <label class="admin-label">Order</label>
@@ -32,7 +35,7 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>%</th>
+            <th>Category</th>
             <th>Order</th>
             <th>Actions</th>
           </tr>
@@ -44,8 +47,8 @@
               <span v-else>{{ skill.name }}</span>
             </td>
             <td>
-              <input v-if="editing === skill.id" v-model.number="editForm.percentage" type="number" min="0" max="100" class="admin-input" style="margin:0;width:80px;" />
-              <span v-else>{{ skill.percentage }}%</span>
+              <input v-if="editing === skill.id" v-model="editForm.category" class="admin-input" list="skill-categories" style="margin:0;width:150px;" />
+              <span v-else>{{ skill.category }}</span>
             </td>
             <td>
               <input v-if="editing === skill.id" v-model.number="editForm.sortOrder" type="number" class="admin-input" style="margin:0;width:70px;" />
@@ -75,14 +78,18 @@ useHead({ title: 'Skills – Admin' })
 const { data, refresh } = await useFetch('/api/content/skills')
 const skillsList = computed(() => (data.value as any[]) || [])
 
+const existingCategories = computed(() =>
+  Array.from(new Set(skillsList.value.map((s: any) => s.category).filter(Boolean)))
+)
+
 function nextSortOrder() {
   return skillsList.value.reduce((max, s) => Math.max(max, s.sortOrder ?? 0), 0) + 1
 }
 
-const newSkill = reactive({ name: '', percentage: 80, sortOrder: nextSortOrder() })
+const newSkill = reactive({ name: '', category: 'Backend', sortOrder: nextSortOrder() })
 const adding = ref(false)
 const editing = ref<number | null>(null)
-const editForm = reactive({ name: '', percentage: 0, sortOrder: 0 })
+const editForm = reactive({ name: '', category: '', sortOrder: 0 })
 
 watch(skillsList, () => { newSkill.sortOrder = nextSortOrder() })
 
@@ -92,7 +99,6 @@ async function addSkill() {
   try {
     await $fetch('/api/content/skills', { method: 'POST', body: { ...newSkill } })
     newSkill.name = ''
-    newSkill.percentage = 80
     refresh()
   } finally {
     adding.value = false
@@ -102,7 +108,7 @@ async function addSkill() {
 function startEdit(skill: any) {
   editing.value = skill.id
   editForm.name = skill.name
-  editForm.percentage = skill.percentage
+  editForm.category = skill.category
   editForm.sortOrder = skill.sortOrder
 }
 

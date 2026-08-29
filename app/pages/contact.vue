@@ -3,7 +3,6 @@
     <!-- Page Title -->
     <section class="title-section text-left text-sm-center reveal">
       <h1>get in <span>touch</span></h1>
-      <span class="title-bg">Contact</span>
     </section>
 
     <!-- Main Content -->
@@ -12,10 +11,10 @@
         <div class="row">
           <!-- Left: Contact Info -->
           <div class="col-12 col-lg-4">
-            <h3 class="text-uppercase custom-title mb-0 ft-wt-600 pb-3">Don't be shy !</h3>
+            <h3 class="text-uppercase custom-title mb-0 ft-wt-600 pb-3">Let's talk</h3>
             <p class="open-sans-font mb-4">
-              Feel free to get in touch with me. I am always open to discussing new projects,
-              creative ideas or opportunities to be part of your visions.
+              I'm open to full-stack engineering roles and interesting build problems &mdash;
+              APIs, front ends, or AI tooling. Send a note and I'll reply within a couple of days.
             </p>
             <div class="contactinfo open-sans-font">
               <ul class="list-unstyled">
@@ -35,8 +34,8 @@
                   <i class="fa fa-linkedin" aria-hidden="true"></i>
                 </a>
               </li>
-              <li v-if="info?.twitterUrl">
-                <a :href="info.twitterUrl" target="_blank" rel="noopener" aria-label="GitHub profile">
+              <li v-if="info?.githubUrl">
+                <a :href="info.githubUrl" target="_blank" rel="noopener" aria-label="GitHub profile">
                   <i class="fa fa-github" aria-hidden="true"></i>
                 </a>
               </li>
@@ -125,10 +124,10 @@ const BASE = 'https://dkthecoder.online'
 
 useSeoMeta({
   title: 'Contact Dhamodhara Kannan – DK Software Engineer',
-  description: 'Get in touch with Dhamodhara Kannan (DK), a full-stack software engineer, for project inquiries, freelance work, and collaboration.',
-  keywords: 'contact Dhamodhara Kannan, contact DK, hire DK, hire Dhamodhara Kannan, freelance developer, DK software engineer contact',
+  description: 'Get in touch with Dhamodhara Kannan (DK), a full-stack engineer in Chennai, about engineering roles and build work.',
+  keywords: 'contact Dhamodhara Kannan, contact DK, hire DK, hire Dhamodhara Kannan, full stack engineer Chennai, DK software engineer contact',
   ogTitle: 'Contact Dhamodhara Kannan – DK Software Engineer',
-  ogDescription: 'Get in touch with Dhamodhara Kannan (DK), a full-stack software engineer, for project inquiries, freelance work, and collaboration.',
+  ogDescription: 'Get in touch with Dhamodhara Kannan (DK), a full-stack engineer in Chennai, about engineering roles and build work.',
   ogUrl: `${BASE}/contact`,
   ogImage: `${BASE}/img/blog/edited_pp.jpg`,
   twitterCard: 'summary',

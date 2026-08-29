@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Diagram: documents are embedded into a vector index, searched semantically, and returned as a grounded answer with citations">
+  <defs>
+    <linearGradient id="ragBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181818"/>
+      <stop offset="100%" stop-color="#101010"/>
+    </linearGradient>
+    <pattern id="ragGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M50 0H0V50" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="750" fill="url(#ragBg)"/>
+  <rect width="1200" height="750" fill="url(#ragGrid)"/>
+  <rect x="0" y="0" width="6" height="750" fill="#fa5b0f"/>
+
+  <g transform="translate(84, 315)">
+    <rect x="0" y="0" width="200" height="104" rx="10" fill="#1f1f1f" stroke="#333" stroke-width="1.5"/>
+    <text x="100" y="46" font-family="Poppins, Segoe UI, sans-serif" font-size="19" font-weight="600" fill="#e8e8e8" text-anchor="middle">1,200+ docs</text>
+    <text x="100" y="74" font-family="Open Sans, Segoe UI, sans-serif" font-size="14" fill="#8a8a8a" text-anchor="middle">ingested</text>
+
+    <path d="M210 52 H268" stroke="#fa5b0f" stroke-width="2"/>
+    <path d="M260 45 L270 52 L260 59 Z" fill="#fa5b0f"/>
+
+    <rect x="278" y="0" width="200" height="104" rx="10" fill="#1f1f1f" stroke="#333" stroke-width="1.5"/>
+    <text x="378" y="46" font-family="Poppins, Segoe UI, sans-serif" font-size="19" font-weight="600" fill="#e8e8e8" text-anchor="middle">Embeddings</text>
+    <text x="378" y="74" font-family="Open Sans, Segoe UI, sans-serif" font-size="14" fill="#8a8a8a" text-anchor="middle">Pinecone index</text>
+
+    <path d="M488 52 H546" stroke="#fa5b0f" stroke-width="2"/>
+    <path d="M538 45 L548 52 L538 59 Z" fill="#fa5b0f"/>
+
+    <rect x="556" y="0" width="200" height="104" rx="10" fill="#1f1f1f" stroke="#333" stroke-width="1.5"/>
+    <text x="656" y="46" font-family="Poppins, Segoe UI, sans-serif" font-size="19" font-weight="600" fill="#e8e8e8" text-anchor="middle">Semantic search</text>
+    <text x="656" y="74" font-family="Open Sans, Segoe UI, sans-serif" font-size="14" fill="#8a8a8a" text-anchor="middle">&lt; 400ms</text>
+
+    <path d="M766 52 H824" stroke="#fa5b0f" stroke-width="2"/>
+    <path d="M816 45 L826 52 L816 59 Z" fill="#fa5b0f"/>
+
+    <rect x="834" y="-16" width="200" height="136" rx="10" fill="#241407" stroke="#fa5b0f" stroke-width="2"/>
+    <text x="934" y="38" font-family="Poppins, Segoe UI, sans-serif" font-size="19" font-weight="600" fill="#fa5b0f" text-anchor="middle">Grounded answer</text>
+    <text x="934" y="68" font-family="Open Sans, Segoe UI, sans-serif" font-size="14" fill="#c9a68d" text-anchor="middle">streamed to the UI</text>
+    <text x="934" y="94" font-family="Open Sans, Segoe UI, sans-serif" font-size="14" fill="#c9a68d" text-anchor="middle">with source citations</text>
+  </g>
+
+  <text x="600" y="560" font-family="Open Sans, Segoe UI, sans-serif" font-size="18" fill="#8a8a8a" text-anchor="middle">React &#183; TypeScript &#183; Zustand &#183; Pinecone &#183; Embeddings &#183; LLM APIs</text>
+</svg>

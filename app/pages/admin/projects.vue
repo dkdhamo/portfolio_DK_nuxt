@@ -27,6 +27,10 @@
             <div class="project-title">{{ project.title }}</div>
             <div class="project-meta">{{ project.projectType }} · {{ project.client }}</div>
             <div class="project-tools" style="font-size:12px;color:#888;">{{ project.tools }}</div>
+            <a :href="`/portfolio/${project.slug}`" target="_blank" rel="noopener" class="project-slug">/portfolio/{{ project.slug }}</a>
+            <div v-if="!project.summary || !project.outcome" class="project-warn">
+              Missing {{ [!project.summary && 'summary', !project.outcome && 'outcome'].filter(Boolean).join(' and ') }} — the card will look empty
+            </div>
           </div>
           <div class="project-actions">
             <button @click="startEdit(project)" class="admin-btn admin-btn-secondary" style="margin-right:6px;">Edit</button>
@@ -46,8 +50,9 @@ const { data, refresh } = await useFetch('/api/admin/projects')
 const projectList = computed(() => (data.value as any[]) || [])
 
 const emptyProject = () => ({
-  title: '', projectType: 'Website', client: '', tools: '',
-  previewUrl: '', thumbnailUrl: '', imagesRaw: '', sortOrder: 0, active: true,
+  slug: '', title: '', projectType: 'Web App', client: '', tools: '', year: '',
+  summary: '', problem: '', approach: '', outcome: '',
+  previewUrl: '', repoUrl: '', thumbnailUrl: '', imagesRaw: '', sortOrder: 0, active: true,
 })
 
 const newProject = reactive(emptyProject())
@@ -66,7 +71,7 @@ async function addProject() {
   if (!newProject.title) return
   adding.value = true
   try {
-    await $fetch('/api/projects', { method: 'POST', body: toBody(newProject) })
+    await $fetch('/api/admin/projects', { method: 'POST', body: toBody(newProject) })
     Object.assign(newProject, emptyProject())
     refresh()
   } finally {
@@ -78,21 +83,23 @@ function startEdit(p: any) {
   editing.value = p.id
   const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
   Object.assign(editForm, {
-    title: p.title, projectType: p.projectType, client: p.client, tools: p.tools,
-    previewUrl: p.previewUrl, thumbnailUrl: p.thumbnailUrl,
+    slug: p.slug, title: p.title, projectType: p.projectType, client: p.client,
+    tools: p.tools, year: p.year, summary: p.summary,
+    problem: p.problem, approach: p.approach, outcome: p.outcome,
+    previewUrl: p.previewUrl, repoUrl: p.repoUrl, thumbnailUrl: p.thumbnailUrl,
     imagesRaw: imgs.join('\n'), sortOrder: p.sortOrder, active: p.active,
   })
 }
 
 async function saveEdit(id: number) {
-  await $fetch(`/api/projects/${id}`, { method: 'PUT', body: toBody(editForm) })
+  await $fetch(`/api/admin/projects/${id}`, { method: 'PUT', body: toBody(editForm) })
   editing.value = null
   refresh()
 }
 
 async function deleteProject(id: number) {
   if (!confirm('Delete this project?')) return
-  await $fetch(`/api/projects/${id}`, { method: 'DELETE' })
+  await $fetch(`/api/admin/projects/${id}`, { method: 'DELETE' })
   refresh()
 }
 </script>
@@ -103,4 +110,6 @@ async function deleteProject(id: number) {
 .project-info { flex: 1; }
 .project-title { font-size: 15px; font-weight: 700; color: #1a1a2e; }
 .project-meta { font-size: 13px; color: #666; margin-top: 2px; }
+.project-slug { display: inline-block; font-size: 12px; color: #4a6cf7; margin-top: 4px; }
+.project-warn { font-size: 12px; color: #b45309; margin-top: 4px; }
 </style>

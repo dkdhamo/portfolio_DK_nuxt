@@ -1,5 +1,5 @@
 import { useDb } from '../../database/client'
-import { personalInfo, stats } from '../../database/schema'
+import { personalInfo } from '../../database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
@@ -13,30 +13,17 @@ export default defineEventHandler(async (event) => {
     lastName: body.lastName,
     title: body.title,
     bio: body.bio,
+    currentRole: body.currentRole,
+    focus: body.focus,
     city: body.city,
     phone: body.phone,
     email: body.email,
-    age: body.age,
-    nationality: body.nationality,
-    language: body.language,
-    freelanceAvailable: body.freelanceAvailable,
     cvUrl: body.cvUrl,
     profileImageUrl: body.profileImageUrl,
     contactEmail: body.contactEmail,
-    facebookUrl: body.facebookUrl,
-    twitterUrl: body.twitterUrl,
     linkedinUrl: body.linkedinUrl,
-    dribbbleUrl: body.dribbbleUrl,
+    githubUrl: body.githubUrl,
   }).where(eq(personalInfo.id, 1))
-
-  if (body.stats) {
-    await db.update(stats).set({
-      yearsExperience: body.stats.yearsExperience,
-      completedProjects: body.stats.completedProjects,
-      happyClients: body.stats.happyClients,
-      awardsWon: body.stats.awardsWon,
-    }).where(eq(stats.id, 1))
-  }
 
   return { success: true }
 })

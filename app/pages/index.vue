@@ -30,7 +30,7 @@
             <a v-if="info?.linkedinUrl" :href="info.linkedinUrl" target="_blank" rel="noopener" aria-label="LinkedIn">
               <i class="fa fa-linkedin"></i>
             </a>
-            <a v-if="info?.twitterUrl" :href="info.twitterUrl" target="_blank" rel="noopener" aria-label="Github">
+            <a v-if="info?.githubUrl" :href="info.githubUrl" target="_blank" rel="noopener" aria-label="GitHub">
               <i class="fa fa-github"></i>
             </a>
           </div>
@@ -88,10 +88,10 @@ useHead({
         name: fullName.value,
         alternateName: 'DK',
         url: BASE,
-        jobTitle: info.value?.title || 'Full Stack Developer',
+        jobTitle: info.value?.title || 'Full Stack Engineer',
         description: info.value?.bio || '',
         email: info.value?.contactEmail || info.value?.email || '',
-        sameAs: [info.value?.linkedinUrl, info.value?.twitterUrl].filter(Boolean),
+        sameAs: [info.value?.linkedinUrl, info.value?.githubUrl].filter(Boolean),
         image: ogImage.value,
       })),
     },

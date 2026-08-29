@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Diagram: an LLM client calls an MCP server, which calls the Azure DevOps REST API">
+  <defs>
+    <linearGradient id="mcpBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#181818"/>
+      <stop offset="100%" stop-color="#101010"/>
+    </linearGradient>
+    <pattern id="mcpGrid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M50 0H0V50" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="750" fill="url(#mcpBg)"/>
+  <rect width="1200" height="750" fill="url(#mcpGrid)"/>
+  <rect x="0" y="0" width="6" height="750" fill="#fa5b0f"/>
+
+  <!-- LLM client -> MCP server -> Azure DevOps -->
+  <g transform="translate(150, 270)">
+    <rect x="0" y="40" width="220" height="110" rx="10" fill="#1f1f1f" stroke="#333" stroke-width="1.5"/>
+    <text x="110" y="88" font-family="Poppins, Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#e8e8e8" text-anchor="middle">LLM client</text>
+    <text x="110" y="117" font-family="Open Sans, Segoe UI, sans-serif" font-size="15" fill="#8a8a8a" text-anchor="middle">tool calling</text>
+
+    <path d="M240 95 H320" stroke="#fa5b0f" stroke-width="2" fill="none"/>
+    <path d="M312 88 L322 95 L312 102 Z" fill="#fa5b0f"/>
+
+    <rect x="330" y="18" width="260" height="154" rx="10" fill="#241407" stroke="#fa5b0f" stroke-width="2"/>
+    <text x="460" y="80" font-family="Poppins, Segoe UI, sans-serif" font-size="23" font-weight="600" fill="#fa5b0f" text-anchor="middle">MCP server</text>
+    <text x="460" y="112" font-family="Open Sans, Segoe UI, sans-serif" font-size="15" fill="#c9a68d" text-anchor="middle">TypeScript / Node.js</text>
+    <text x="460" y="138" font-family="Open Sans, Segoe UI, sans-serif" font-size="15" fill="#c9a68d" text-anchor="middle">structured tool schemas</text>
+
+    <path d="M600 95 H680" stroke="#fa5b0f" stroke-width="2" fill="none"/>
+    <path d="M672 88 L682 95 L672 102 Z" fill="#fa5b0f"/>
+
+    <rect x="690" y="40" width="220" height="110" rx="10" fill="#1f1f1f" stroke="#333" stroke-width="1.5"/>
+    <text x="800" y="88" font-family="Poppins, Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#e8e8e8" text-anchor="middle">Azure DevOps</text>
+    <text x="800" y="117" font-family="Open Sans, Segoe UI, sans-serif" font-size="15" fill="#8a8a8a" text-anchor="middle">REST API</text>
+  </g>
+
+  <text x="600" y="560" font-family="Open Sans, Segoe UI, sans-serif" font-size="18" fill="#8a8a8a" text-anchor="middle">TypeScript &#183; Node.js &#183; Model Context Protocol &#183; Azure DevOps REST API</text>
+</svg>

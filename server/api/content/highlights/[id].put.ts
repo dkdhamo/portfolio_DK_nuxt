@@ -1,5 +1,5 @@
 import { useDb } from '../../../database/client'
-import { skills } from '../../../database/schema'
+import { highlights } from '../../../database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
@@ -7,10 +7,10 @@ export default defineEventHandler(async (event) => {
   const id = parseInt(getRouterParam(event, 'id')!)
   const body = await readBody(event)
   const db = useDb()
-  await db.update(skills).set({
-    name: body.name,
-    category: body.category,
+  await db.update(highlights).set({
+    value: body.value,
+    label: body.label,
     sortOrder: body.sortOrder,
-  }).where(eq(skills.id, id))
+  }).where(eq(highlights.id, id))
   return { success: true }
 })

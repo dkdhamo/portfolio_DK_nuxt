@@ -43,7 +43,7 @@ async function save() {
   saved.value = false
   const d = data.value as any
   try {
-    await $fetch('/api/content/personal', { method: 'PUT', body: { ...d.info, cvUrl: cvUrl.value, stats: d.stats } })
+    await $fetch('/api/content/personal', { method: 'PUT', body: { ...d.info, cvUrl: cvUrl.value } })
     saved.value = true
     refresh()
     setTimeout(() => { saved.value = false }, 3000)

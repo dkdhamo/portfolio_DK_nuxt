@@ -1,16 +1,11 @@
 import { useDb } from '../../../database/client'
-import { skills } from '../../../database/schema'
+import { projects } from '../../../database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   await requireUserSession(event)
   const id = parseInt(getRouterParam(event, 'id')!)
-  const body = await readBody(event)
   const db = useDb()
-  await db.update(skills).set({
-    name: body.name,
-    category: body.category,
-    sortOrder: body.sortOrder,
-  }).where(eq(skills.id, id))
+  await db.delete(projects).where(eq(projects.id, id))
   return { success: true }
 })

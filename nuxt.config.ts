@@ -18,10 +18,12 @@ export default defineNuxtConfig({
 
   sitemap: {
     exclude: ['/admin', '/admin/**'],
+    // Case-study pages come from the database
+    sources: ['/api/__sitemap__/urls'],
     urls: [
       { loc: '/',          priority: 1.0, changefreq: 'monthly' },
       { loc: '/about',     priority: 0.9, changefreq: 'monthly' },
-      { loc: '/portfolio', priority: 0.8, changefreq: 'weekly'  },
+      { loc: '/portfolio', priority: 0.9, changefreq: 'weekly'  },
       { loc: '/contact',   priority: 0.7, changefreq: 'yearly'  },
     ],
   },

@@ -34,6 +34,8 @@
 .admin-input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
 .admin-input:focus { outline: none; border-color: #1a1a2e; }
 .admin-label { font-size: 13px; font-weight: 600; color: #444; display: block; margin-bottom: 4px; }
+.admin-hint { font-weight: 400; color: #888; font-size: 12px; margin-left: 6px; }
+.admin-section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px; color: #1a1a2e; }
 .admin-form-group { margin-bottom: 16px; }
 .admin-alert-success { background: #d4edda; color: #155724; padding: 10px 16px; border-radius: 6px; font-size: 14px; }
 .admin-alert-error { background: #f8d7da; color: #721c24; padding: 10px 16px; border-radius: 6px; font-size: 14px; }
