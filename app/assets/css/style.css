@@ -638,6 +638,13 @@ body.light hr.separator {
   font-size: 14px;
 }
 
+.about .resume-box .resume-desc {
+  opacity: .7;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
 .about .resume-box .place {
   opacity: .8;
   font-weight: 600;

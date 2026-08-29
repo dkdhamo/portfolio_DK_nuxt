@@ -134,7 +134,8 @@
                   <div class="icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
                   <span class="time open-sans-font text-uppercase">{{ exp.year }}</span>
                   <h5 class="poppins-font text-uppercase">{{ exp.title }}</h5>
-                  <p class="open-sans-font">{{ exp.company }}</p>
+                  <p class="open-sans-font mb-1">{{ exp.company }}</p>
+                  <p v-if="exp.description" class="open-sans-font resume-desc">{{ exp.description }}</p>
                 </li>
               </ul>
             </div>
@@ -151,7 +152,8 @@
                   <div class="icon"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
                   <span class="time open-sans-font text-uppercase">{{ exp.year }}</span>
                   <h5 class="poppins-font text-uppercase">{{ exp.title }}</h5>
-                  <p class="open-sans-font">{{ exp.company }}</p>
+                  <p class="open-sans-font mb-1">{{ exp.company }}</p>
+                  <p v-if="exp.description" class="open-sans-font resume-desc">{{ exp.description }}</p>
                 </li>
               </ul>
             </div>

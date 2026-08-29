@@ -75,10 +75,16 @@ useHead({ title: 'Skills – Admin' })
 const { data, refresh } = await useFetch('/api/content/skills')
 const skillsList = computed(() => (data.value as any[]) || [])
 
-const newSkill = reactive({ name: '', percentage: 80, sortOrder: 0 })
+function nextSortOrder() {
+  return skillsList.value.reduce((max, s) => Math.max(max, s.sortOrder ?? 0), 0) + 1
+}
+
+const newSkill = reactive({ name: '', percentage: 80, sortOrder: nextSortOrder() })
 const adding = ref(false)
 const editing = ref<number | null>(null)
 const editForm = reactive({ name: '', percentage: 0, sortOrder: 0 })
+
+watch(skillsList, () => { newSkill.sortOrder = nextSortOrder() })
 
 async function addSkill() {
   if (!newSkill.name) return

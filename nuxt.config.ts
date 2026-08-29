@@ -79,6 +79,9 @@ export default defineNuxtConfig({
       '/js/**':    { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
       // API routes: short cache, revalidate in background
       '/api/**':   { headers: { 'cache-control': 'public, s-maxage=60, stale-while-revalidate=600' } },
+      // Editable content is read back by the admin panel right after saving —
+      // a shared CDN cache would show stale data for up to 10 minutes.
+      '/api/content/**': { headers: { 'cache-control': 'no-store' } },
       // Admin API routes are per-session and must never be cached/shared via the CDN
       '/api/admin/**': { headers: { 'cache-control': 'private, no-store' } },
     },

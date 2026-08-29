@@ -108,17 +108,23 @@ useHead({ title: 'Experience – Admin' })
 const { data, refresh } = await useFetch('/api/content/experience')
 const expList = computed(() => (data.value as any[]) || [])
 
-const newExp = reactive({ year: '', title: '', company: '', description: '', type: 'work', sortOrder: 0 })
+function nextSortOrder() {
+  return expList.value.reduce((max, e) => Math.max(max, e.sortOrder ?? 0), 0) + 1
+}
+
+const newExp = reactive({ year: '', title: '', company: '', description: '', type: 'work', sortOrder: nextSortOrder() })
 const adding = ref(false)
 const editing = ref<number | null>(null)
 const editForm = reactive({ year: '', title: '', company: '', description: '', type: 'work', sortOrder: 0 })
+
+watch(expList, () => { newExp.sortOrder = nextSortOrder() })
 
 async function addExp() {
   if (!newExp.year || !newExp.title) return
   adding.value = true
   try {
     await $fetch('/api/content/experience', { method: 'POST', body: { ...newExp } })
-    Object.assign(newExp, { year: '', title: '', company: '', description: '', type: 'work', sortOrder: 0 })
+    Object.assign(newExp, { year: '', title: '', company: '', description: '', type: newExp.type, sortOrder: nextSortOrder() })
     refresh()
   } finally {
     adding.value = false

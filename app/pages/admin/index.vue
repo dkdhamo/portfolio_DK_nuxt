@@ -30,7 +30,7 @@ const { user } = useUserSession()
 const [{ data: skillsData }, { data: expData }, { data: projectsData }, { data: contactsData }] = await Promise.all([
   useFetch('/api/content/skills'),
   useFetch('/api/content/experience'),
-  useFetch('/api/projects'),
+  useFetch('/api/admin/projects'),
   useFetch('/api/admin/contacts'),
 ])
 
