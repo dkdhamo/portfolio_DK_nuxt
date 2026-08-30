@@ -2,6 +2,7 @@
 @font-face {
   font-family: 'FontAwesome';
   src: url('/fonts/fontawesome-webfont3e6e.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/fontawesome-webfont3e6e.woff2') format('woff2'),
        url('/fonts/fontawesome-webfont3e6e.woff') format('woff'),
        url('/fonts/fontawesome-webfont3e6e.ttf') format('truetype'),
        url('/fonts/fontawesome-webfont3e6e.svg#fontawesomeregular') format('svg');
@@ -14,6 +15,9 @@
   --accent: #fa5b0f;
   --accent-soft: rgba(250, 91, 15, 0.12);
   --accent-border: rgba(250, 91, 15, 0.35);
+  /* Darker than --accent specifically for white text on a solid fill
+     (buttons) — white on #fa5b0f is 3.2:1, short of WCAG AA's 4.5:1. */
+  --accent-btn: #c2480c;
 }
 
 /*------------------------------------------------------------------
@@ -424,7 +428,9 @@ body.light hr.separator {
 }
 
 .home .bg {
-  background-image: url(../img/blog/edited_pp.jpg);
+  /* background-image is set inline per-request by index.vue, through
+     Nuxt Image, so it reflects the admin-set profile photo and gets
+     resized/reformatted instead of loading the raw source file. */
   background-color: #111;
   background-size: cover;
   background-repeat: no-repeat;
@@ -528,7 +534,7 @@ body.light hr.separator {
   opacity: .8;
 }
 
-.about .resume-box h5 {
+.about .resume-box h4 {
   font-size: 18px;
   margin: 7px 0 10px;
 }
@@ -1004,7 +1010,7 @@ body.light hr.separator {
     padding-bottom: 0;
   }
 
-  .about .resume-box h5 {
+  .about .resume-box h4 {
     font-size: 17px;
   }
 
@@ -1403,11 +1409,18 @@ body.light.contact ul.social li a:hover,
 .header ul.icon-menu li.icon-box:hover,
 body.light .header ul.icon-menu li.icon-box.active,
 body.light .header ul.icon-menu li.icon-box:hover,
-.btn,
 .header .icon-box h2,
 .home .color-block,
 .title-section hr {
   background-color: var(--accent);
+}
+
+/* White text on the full-brightness accent (#fa5b0f) only reaches 3.2:1,
+   short of the 4.5:1 WCAG AA text requires — everywhere else the accent
+   is a background behind an icon or a decorative fill, which only needs
+   3:1, so only the text-bearing buttons get the darker variant. */
+.btn {
+  background-color: var(--accent-btn);
 }
 
 .contact .contactform input[type=text]:focus,
@@ -1861,13 +1874,16 @@ body.light .highlight__label { color: #777; }
   letter-spacing: 0.3px;
 }
 
+/* #777/#666 against #111 measured under 4.5:1 (WCAG AA for normal text) —
+   #8a8a8a clears it with margin and matches the grey used elsewhere
+   (.pf-card__type, .cs-back) for consistency. */
 .site-footer__alias {
-  color: #777;
+  color: #8a8a8a;
 }
 
 .site-footer__copy {
   font-size: 12px;
-  color: #666;
+  color: #8a8a8a;
 }
 
 body.light .site-footer {
@@ -1880,7 +1896,7 @@ body.light .site-footer__identity {
 
 body.light .site-footer__alias,
 body.light .site-footer__copy {
-  color: #999;
+  color: #666;
 }
 
 @media (min-width: 992px) {

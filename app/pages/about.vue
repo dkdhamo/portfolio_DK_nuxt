@@ -51,7 +51,7 @@
 
           <!-- Impact highlights -->
           <div v-if="highlightList.length" class="col-12 col-lg-5 mt-5 mt-lg-0">
-            <h3 class="text-uppercase custom-title mb-0 ft-wt-600 pb-4">Selected impact</h3>
+            <h2 class="text-uppercase custom-title mb-0 ft-wt-600 pb-4">Selected impact</h2>
             <ul class="highlight-list list-unstyled">
               <li v-for="h in highlightList" :key="h.id" class="highlight">
                 <span class="highlight__value poppins-font">{{ h.value }}</span>
@@ -66,14 +66,14 @@
         <!-- Skills, grouped -->
         <div class="row">
           <div class="col-12">
-            <h3 class="text-uppercase pb-4 pb-sm-5 mb-3 mb-sm-0 text-left text-sm-center custom-title ft-wt-600">What I work with</h3>
+            <h2 class="text-uppercase pb-4 pb-sm-5 mb-3 mb-sm-0 text-left text-sm-center custom-title ft-wt-600">What I work with</h2>
           </div>
           <template v-if="!skillsFetch.data.value">
             <div class="col-12"><AppSkeleton :lines="3" /></div>
           </template>
           <template v-else>
             <div v-for="group in skillGroups" :key="group.category" class="col-12 col-md-6 mb-4">
-              <h4 class="skill-group-title text-uppercase open-sans-font">{{ group.category }}</h4>
+              <h3 class="skill-group-title text-uppercase open-sans-font">{{ group.category }}</h3>
               <ul class="skill-tags list-unstyled">
                 <li v-for="skill in group.items" :key="skill.id" class="skill-tag open-sans-font">
                   {{ skill.name }}
@@ -88,21 +88,21 @@
         <!-- Experience & Education -->
         <div class="row">
           <div class="col-12">
-            <h3 class="text-uppercase pb-5 mb-0 text-left text-sm-center custom-title ft-wt-600">
+            <h2 class="text-uppercase pb-5 mb-0 text-left text-sm-center custom-title ft-wt-600">
               Experience <span>&</span> Education
-            </h3>
+            </h2>
           </div>
 
           <div class="col-12 col-lg-6">
-            <h4 class="resume-col-title text-uppercase open-sans-font mb-4">
+            <h3 class="resume-col-title text-uppercase open-sans-font mb-4">
               <i class="fa fa-briefcase mr-2" aria-hidden="true"></i> Work Experience
-            </h4>
+            </h3>
             <div class="resume-box">
               <ul>
                 <li v-for="exp in workList" :key="exp.id">
                   <div class="icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
                   <span class="time open-sans-font text-uppercase">{{ exp.year }}</span>
-                  <h5 class="poppins-font text-uppercase">{{ exp.title }}</h5>
+                  <h4 class="poppins-font text-uppercase">{{ exp.title }}</h4>
                   <p class="open-sans-font mb-1">{{ exp.company }}</p>
                   <p v-if="exp.description" class="open-sans-font resume-desc">{{ exp.description }}</p>
                 </li>
@@ -111,15 +111,15 @@
           </div>
 
           <div class="col-12 col-lg-6 mt-5 mt-lg-0">
-            <h4 class="resume-col-title text-uppercase open-sans-font mb-4">
+            <h3 class="resume-col-title text-uppercase open-sans-font mb-4">
               <i class="fa fa-graduation-cap mr-2" aria-hidden="true"></i> Education
-            </h4>
+            </h3>
             <div class="resume-box">
               <ul>
                 <li v-for="exp in eduList" :key="exp.id">
                   <div class="icon"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
                   <span class="time open-sans-font text-uppercase">{{ exp.year }}</span>
-                  <h5 class="poppins-font text-uppercase">{{ exp.title }}</h5>
+                  <h4 class="poppins-font text-uppercase">{{ exp.title }}</h4>
                   <p class="open-sans-font mb-1">{{ exp.company }}</p>
                   <p v-if="exp.description" class="open-sans-font resume-desc">{{ exp.description }}</p>
                 </li>

@@ -37,7 +37,7 @@
               </div>
               <div class="pf-card__body">
                 <span class="pf-card__type open-sans-font">{{ project.projectType }}<template v-if="project.year"> · {{ project.year }}</template></span>
-                <h3 class="pf-card__title poppins-font">{{ project.title }}</h3>
+                <h2 class="pf-card__title poppins-font">{{ project.title }}</h2>
                 <p v-if="project.summary" class="pf-card__summary open-sans-font">{{ project.summary }}</p>
                 <p v-if="project.outcome" class="pf-card__outcome open-sans-font">{{ project.outcome }}</p>
                 <span class="pf-card__cta open-sans-font">Read case study <span aria-hidden="true">&rarr;</span></span>

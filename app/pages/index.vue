@@ -3,7 +3,7 @@
     <div class="home-mesh"></div>
     <div class="color-block d-none d-lg-block"></div>
     <div class="row home-details-container align-items-center">
-      <div class="col-lg-4 bg position-fixed d-none d-lg-block"></div>
+      <div class="col-lg-4 bg position-fixed d-none d-lg-block" :style="{ backgroundImage: `url(${bgImageUrl})` }"></div>
       <div class="col-12 col-lg-8 offset-lg-4 home-details text-left text-sm-center text-lg-left reveal">
         <div>
           <NuxtImg
@@ -49,6 +49,17 @@ const BASE = 'https://dkthecoder.online'
 const { data } = await useFetch('/api/content/personal')
 const info = computed(() => (data.value as any)?.info)
 
+// The desktop hero panel (.bg, ~col-lg-4 wide) was a plain CSS
+// background-image pointed straight at the raw source file — 900KB at
+// 2252x2252 for what renders as an ~500px-wide panel, bypassing image
+// optimization entirely and landing as the page's LCP element. Route it
+// through the same optimizer NuxtImg already uses for the mobile photo.
+const $img = useImage()
+const bgImageUrl = computed(() => {
+  const src = info.value?.profileImageUrl || '/img/blog/edited_pp.jpg'
+  return $img(src, { width: 900, quality: 80, format: 'webp' })
+})
+
 const ogImage = computed(() => {
   const img = info.value?.profileImageUrl || '/img/blog/edited_pp.jpg'
   return img.startsWith('http') ? img : `${BASE}${img}`
@@ -79,7 +90,14 @@ useSeoMeta({
 })
 useHead({
   bodyAttrs: { class: 'home' },
-  link: [{ rel: 'canonical', href: `${BASE}/` }],
+  link: [
+    { rel: 'canonical', href: `${BASE}/` },
+    // CSS background-images are only discovered once styles are computed,
+    // well after the HTML preload scanner has already run — preload it
+    // explicitly so the desktop LCP image starts fetching immediately.
+    // Scoped to the same breakpoint that shows the .bg panel (d-lg-block).
+    { rel: 'preload', as: 'image', href: bgImageUrl.value, media: '(min-width: 992px)' },
+  ],
   script: [
     {
       type: 'application/ld+json',

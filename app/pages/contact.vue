@@ -11,7 +11,7 @@
         <div class="row">
           <!-- Left: Contact Info -->
           <div class="col-12 col-lg-4">
-            <h3 class="text-uppercase custom-title mb-0 ft-wt-600 pb-3">Let's talk</h3>
+            <h2 class="text-uppercase custom-title mb-0 ft-wt-600 pb-3">Let's talk</h2>
             <p class="open-sans-font mb-4">
               I'm open to full-stack engineering roles and interesting build problems &mdash;
               APIs, front ends, or AI tooling. Send a note and I'll reply within a couple of days.
