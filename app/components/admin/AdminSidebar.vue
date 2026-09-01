@@ -23,6 +23,11 @@
         </NuxtLink>
       </li>
       <li>
+        <NuxtLink to="/admin/analytics" active-class="active">
+          <i class="fa fa-bar-chart"></i> Analytics
+        </NuxtLink>
+      </li>
+      <li>
         <NuxtLink to="/admin/personal" active-class="active">
           <i class="fa fa-user"></i> Personal Info
         </NuxtLink>

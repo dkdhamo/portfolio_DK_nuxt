@@ -28,15 +28,15 @@
           <p class="open-sans-font mt-2">{{ heroTagline }}</p>
 
           <div class="home-social">
-            <a v-if="info?.linkedinUrl" :href="info.linkedinUrl" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <a v-if="info?.linkedinUrl" :href="info.linkedinUrl" target="_blank" rel="noopener" aria-label="LinkedIn" data-track="social:linkedin">
               <i class="fa fa-linkedin"></i>
             </a>
-            <a v-if="info?.githubUrl" :href="info.githubUrl" target="_blank" rel="noopener" aria-label="GitHub">
+            <a v-if="info?.githubUrl" :href="info.githubUrl" target="_blank" rel="noopener" aria-label="GitHub" data-track="social:github">
               <i class="fa fa-github"></i>
             </a>
           </div>
 
-          <NuxtLink to="/about" class="btn btn-about mt-3">more about me</NuxtLink>
+          <NuxtLink to="/about" class="btn btn-about mt-3" data-track="cta_more_about_me">more about me</NuxtLink>
         </div>
       </div>
     </div>

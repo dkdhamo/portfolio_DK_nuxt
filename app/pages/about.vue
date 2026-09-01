@@ -44,7 +44,7 @@
 
               <div class="about-actions">
                 <a :href="info?.cvUrl || '/assets/resume/DK_resume.pdf'" target="_blank" rel="noopener" class="btn btn-download">Download CV</a>
-                <NuxtLink to="/contact" class="about-secondary-link">Get in touch</NuxtLink>
+                <NuxtLink to="/contact" class="about-secondary-link" data-track="cta_get_in_touch">Get in touch</NuxtLink>
               </div>
             </template>
           </div>

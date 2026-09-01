@@ -24,7 +24,7 @@
 
         <TransitionGroup tag="ul" name="grid-item" class="pf-cards list-unstyled row">
           <li v-for="(project, i) in filteredList" :key="project.id" class="col-12 col-md-6">
-            <NuxtLink :to="`/portfolio/${project.slug}`" class="pf-card">
+            <NuxtLink :to="`/portfolio/${project.slug}`" class="pf-card" :data-track="`case_study:${project.slug}`">
               <div class="pf-card__media">
                 <AppProjectImage
                   :src="project.thumbnailUrl"

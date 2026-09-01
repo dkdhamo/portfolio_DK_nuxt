@@ -101,6 +101,7 @@ Visit `/admin` → Login with GitHub (only your GitHub account is allowed).
 | `/admin/projects` | Add, edit, delete case studies (slug, summary, problem / what I built / outcome, gallery) |
 | `/admin/resume` | Update CV/resume download URL |
 | `/admin/contacts` | Read contact form submissions |
+| `/admin/analytics` | Daily visits/clicks, traffic sources, devices, and a raw event log |
 
 ---
 
@@ -174,3 +175,47 @@ npm run dev:local       # run the dev server against it
 `/admin` works locally without the GitHub OAuth round trip.
 
 To reset, delete `.data/local.db` and run the two db commands again.
+
+---
+
+## Analytics
+
+Self-hosted, first-party, and cookie-free. Nothing here asks the visitor for a
+permission prompt, and nothing here is shared with a third party.
+
+**What is recorded**, per page view or tracked click:
+
+| Source | Fields |
+|--------|--------|
+| Request headers | country, region, city (CDN-resolved), referrer |
+| User-Agent | browser + major version, OS, device type |
+| Page JavaScript | screen and viewport size, pixel ratio, language, timezone, light/dark preference, connection type, CPU cores, device memory, touch points, real page load time |
+| URL | path, `utm_source` / `utm_medium` / `utm_campaign` |
+
+**What is deliberately not recorded:** no cookie is set, no raw IP is stored,
+and nothing that needs a browser permission (GPS location, camera, microphone,
+clipboard, notifications) is touched.
+
+Unique visitors are counted with `visitorHash` — a salted SHA-256 of
+IP + User-Agent + the current UTC date. Because the date is part of the input,
+the hash changes daily and cannot be used to follow anyone between days. This
+is the Plausible/Fathom approach and is what keeps the setup consent-exempt
+under most EU readings; storing a raw IP or a persistent cookie would not be.
+
+Set `ANALYTICS_SALT` in the environment (see `.env.example`). Changing it
+resets unique-visitor counts but is otherwise harmless.
+
+Bots are filtered by User-Agent, `/admin` is never recorded, and events older
+than 180 days are pruned opportunistically on write.
+
+### Tracking a new link
+
+Clicks are auto-classified: outbound links, `mailto:`, `tel:`, and PDF/CV
+downloads are picked up with no markup. For anything else, add `data-track`:
+
+```html
+<NuxtLink to="/contact" data-track="cta_get_in_touch">Get in touch</NuxtLink>
+```
+
+The value is stored verbatim as the event `target` and grouped under
+"Clicked links" in the dashboard.

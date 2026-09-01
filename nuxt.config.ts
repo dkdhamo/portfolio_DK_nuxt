@@ -68,6 +68,10 @@ export default defineNuxtConfig({
     resendApiKey: process.env.RESEND_API_KEY,
     contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || 'webtechians.dev@gmail.com',
     adminGithubLogin: process.env.ADMIN_GITHUB_LOGIN,
+    // Secret input to the daily visitor hash. Without a stable secret, a
+    // visitor hash could be recomputed from a guessed IP — with one, the
+    // stored hashes are meaningless to anyone who doesn't hold this value.
+    analyticsSalt: process.env.ANALYTICS_SALT,
   },
 
   nitro: {
@@ -87,6 +91,9 @@ export default defineNuxtConfig({
       '/api/content/**': { headers: { 'cache-control': 'no-store' } },
       // Admin API routes are per-session and must never be cached/shared via the CDN
       '/api/admin/**': { headers: { 'cache-control': 'private, no-store' } },
+      // Every hit is a distinct write — a cached response would silently
+      // swallow events.
+      '/api/track': { headers: { 'cache-control': 'no-store' } },
 
       // Public pages: ISR on Vercel. Every request currently re-queries Turso
       // (personal_info/highlights/skills/experience/projects) even though the

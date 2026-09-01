@@ -54,10 +54,10 @@
               </dl>
 
               <div v-if="isLiveLink || project.repoUrl" class="cs-links">
-                <a v-if="isLiveLink" :href="project.previewUrl" target="_blank" rel="noopener" class="btn btn-download">
+                <a v-if="isLiveLink" :href="project.previewUrl" target="_blank" rel="noopener" class="btn btn-download" :data-track="`live_demo:${slug}`">
                   View live
                 </a>
-                <a v-if="project.repoUrl" :href="project.repoUrl" target="_blank" rel="noopener" class="cs-repo">
+                <a v-if="project.repoUrl" :href="project.repoUrl" target="_blank" rel="noopener" class="cs-repo" :data-track="`repo:${slug}`">
                   <i class="fa fa-github" aria-hidden="true"></i> Source code
                 </a>
               </div>

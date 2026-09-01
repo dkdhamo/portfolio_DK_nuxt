@@ -1,4 +1,4 @@
-import { integer, text, sqliteTable } from 'drizzle-orm/sqlite-core'
+import { integer, real, text, sqliteTable, index } from 'drizzle-orm/sqlite-core'
 
 export const personalInfo = sqliteTable('personal_info', {
   id: integer('id').primaryKey(),
@@ -69,6 +69,71 @@ export const projects = sqliteTable('projects', {
   sortOrder: integer('sort_order').notNull().default(0),
   active: integer('active', { mode: 'boolean' }).notNull().default(true),
 })
+
+// Self-hosted, cookie-free analytics.
+//
+// Deliberately stores no raw IP address and sets no cookie. Visitors are
+// counted via `visitorHash`, a salted hash of IP + user agent that rotates
+// at UTC midnight — enough to count unique people per day, useless for
+// following anyone between days. This is the model Plausible/Fathom use and
+// is what keeps this consent-exempt in most EU readings; storing the raw IP
+// or a persistent cookie would not be.
+export const analyticsEvents = sqliteTable('analytics_events', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+
+  // 'pageview' | 'click'
+  eventType: text('event_type').notNull().default('pageview'),
+  path: text('path').notNull(),
+  // For clicks: what was clicked — 'cv_download', 'project:<slug>',
+  // 'social:github', 'outbound:<host>', 'contact_submit', …
+  target: text('target').notNull().default(''),
+
+  visitorHash: text('visitor_hash').notNull().default(''),
+
+  // Acquisition
+  referrer: text('referrer').notNull().default(''),
+  referrerHost: text('referrer_host').notNull().default(''),
+  utmSource: text('utm_source').notNull().default(''),
+  utmMedium: text('utm_medium').notNull().default(''),
+  utmCampaign: text('utm_campaign').notNull().default(''),
+
+  // Coarse location, resolved server-side from the request. City/region are
+  // whatever the CDN reports — never GPS, which would need a permission prompt.
+  country: text('country').notNull().default(''),
+  region: text('region').notNull().default(''),
+  city: text('city').notNull().default(''),
+
+  // Parsed from the User-Agent header
+  browser: text('browser').notNull().default(''),
+  browserVersion: text('browser_version').notNull().default(''),
+  os: text('os').notNull().default(''),
+  deviceType: text('device_type').notNull().default(''),
+
+  // Reported by the page itself. Every one of these is readable from
+  // JavaScript with no permission prompt.
+  screenWidth: integer('screen_width'),
+  screenHeight: integer('screen_height'),
+  viewportWidth: integer('viewport_width'),
+  viewportHeight: integer('viewport_height'),
+  pixelRatio: real('pixel_ratio'),
+  language: text('language').notNull().default(''),
+  timezone: text('timezone').notNull().default(''),
+  colorScheme: text('color_scheme').notNull().default(''),
+  connection: text('connection').notNull().default(''),
+  cpuCores: integer('cpu_cores'),
+  deviceMemory: real('device_memory'),
+  touchPoints: integer('touch_points'),
+  // Real-world load time from the Navigation Timing API — the same number
+  // Lighthouse estimates, but measured on actual visitors' devices.
+  loadTimeMs: integer('load_time_ms'),
+
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+}, (table) => [
+  // The dashboard always filters/groups by time, and counts distinct
+  // visitors within a day.
+  index('analytics_created_at_idx').on(table.createdAt),
+  index('analytics_visitor_idx').on(table.visitorHash),
+])
 
 export const contactSubmissions = sqliteTable('contact_submissions', {
   id: integer('id').primaryKey({ autoIncrement: true }),
