@@ -50,15 +50,24 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page-fade', mode: 'out-in' },
     head: {
       htmlAttrs: { lang: 'en' },
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      ],
       link: [
         // Bootstrap is CRITICAL (grid layout) — must stay blocking
         { rel: 'stylesheet', href: '/css/bootstrap.min.css' },
         // font-awesome and circle.css are loaded deferred via plugin (not blocking)
         // Google Fonts removed — @nuxt/fonts serves them locally
+
+        // Favicons. Without a real file at /favicon.ico, Nitro serves a 1x1
+        // transparent placeholder, which Google can't parse — that's why the
+        // search result showed a generic globe instead of an icon.
+        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+        { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+        { rel: 'manifest', href: '/site.webmanifest' },
+      ],
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'theme-color', content: '#fa5b0f' },
       ],
     },
   },

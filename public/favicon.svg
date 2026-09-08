@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="DK">
+  <rect width="512" height="512" rx="104" fill="#fa5b0f"/>
+  <!-- "DK" drawn as paths rather than <text> so it renders identically
+       everywhere, with no dependency on a font being installed. -->
+  <!-- D -->
+  <path fill="#ffffff" fill-rule="evenodd" d="M96 148h104a110 110 0 0 1 0 220H96V148zm48 44v132h56a66 66 0 0 0 0-132h-56z"/>
+  <!-- K -->
+  <path fill="#ffffff" d="M286 148h48v92l82-92h58l-96 106 100 114h-59l-85-98v98h-48V148z"/>
+</svg>
