@@ -120,26 +120,67 @@
 </template>
 
 <script setup lang="ts">
-const BASE = 'https://dkthecoder.online'
-
-useSeoMeta({
-  title: 'Contact Dhamodhara Kannan – DK Software Engineer',
-  description: 'Get in touch with Dhamodhara Kannan (DK), a full-stack engineer in Chennai, about engineering roles and build work.',
-  keywords: 'contact Dhamodhara Kannan, contact DK, hire DK, hire Dhamodhara Kannan, full stack engineer Chennai, DK software engineer contact',
-  ogTitle: 'Contact Dhamodhara Kannan – DK Software Engineer',
-  ogDescription: 'Get in touch with Dhamodhara Kannan (DK), a full-stack engineer in Chennai, about engineering roles and build work.',
-  ogUrl: `${BASE}/contact`,
-  ogImage: `${BASE}/img/blog/edited_pp.jpg`,
-  twitterCard: 'summary',
-  twitterImage: `${BASE}/img/blog/edited_pp.jpg`,
-})
-useHead({
-  bodyAttrs: { class: 'contact' },
-  link: [{ rel: 'canonical', href: `${BASE}/contact` }],
-})
+const BASE = SITE_URL
 
 const { data } = await useFetch('/api/content/personal')
 const info = computed(() => (data.value as any)?.info)
+
+const seoTitle = 'Contact Dhamodhara Kannan (DK) — Hire a Full Stack Engineer'
+const seoDescription = metaDescription(
+  'Contact Dhamodhara Kannan (DK), a full-stack software engineer in Chennai, India, about engineering roles, contract work and collaboration. Replies within a couple of days.',
+)
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ...socialMeta({
+    title: seoTitle,
+    description: seoDescription,
+    url: `${BASE}/contact`,
+    image: absoluteUrl('/img/blog/edited_pp.jpg'),
+  }),
+})
+
+useHead({
+  bodyAttrs: { class: 'contact' },
+  link: [{ rel: 'canonical', href: `${BASE}/contact` }],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() =>
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          '@id': `${BASE}/contact#contactpage`,
+          url: `${BASE}/contact`,
+          name: seoTitle,
+          description: seoDescription,
+          inLanguage: 'en',
+          isPartOf: { '@id': `${SITE_URL}/#website` },
+          about: { '@id': `${SITE_URL}/#person` },
+          mainEntity: {
+            '@type': 'Person',
+            '@id': `${SITE_URL}/#person`,
+            name: 'Dhamodhara Kannan',
+            alternateName: NAME_VARIANTS,
+            email: info.value?.contactEmail || info.value?.email || undefined,
+            telephone: info.value?.phone || undefined,
+            url: SITE_URL,
+          },
+        }),
+      ),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(
+        breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ]),
+      ),
+    },
+  ],
+})
 
 const form = reactive({ name: '', email: '', subject: '', message: '' })
 const errors = reactive({ name: '', email: '', message: '' })

@@ -4,7 +4,8 @@ export default defineNuxtConfig({
 
   // Required by @nuxtjs/sitemap v8 to generate absolute URLs
   site: {
-    url: 'https://dkthecoder.online',
+    // Must match the host that actually serves: the apex 308-redirects to www.
+    url: 'https://www.dkthecoder.online',
     name: 'Dhamodhara Kannan Portfolio',
   },
 

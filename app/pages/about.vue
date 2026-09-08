@@ -134,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-const BASE = 'https://dkthecoder.online'
+const BASE = SITE_URL
 
 const [personalData, skillsFetch, experienceFetch] = await Promise.all([
   useFetch('/api/content/personal'),
@@ -170,19 +170,63 @@ const ogImage = computed(() => {
   return img.startsWith('http') ? img : `${BASE}${img}`
 })
 
+const seoTitle = 'About Dhamodhara Kannan (DK) — Full Stack Engineer in Chennai'
+const seoDescription = computed(() =>
+  metaDescription(
+    info.value?.bio ||
+      'Who is Dhamodhara Kannan (DK)? A full-stack software engineer in Chennai working across .NET, Node.js, Java, React and TypeScript. Skills, experience and education.',
+  ),
+)
+
 useSeoMeta({
-  title: 'About Dhamodhara Kannan (DK) – Full Stack Engineer | Skills & Experience',
-  description: computed(() => info.value?.bio || 'Dhamodhara Kannan (DK) — full-stack engineer working across .NET, Node, React and TypeScript. Skills, work experience, and education.'),
-  keywords: 'Dhamodhara Kannan, DK, DK software engineer, full stack engineer, .NET engineer, React TypeScript developer, Chennai software engineer',
-  ogTitle: 'About Dhamodhara Kannan (DK) – Full Stack Engineer | Skills & Experience',
-  ogDescription: computed(() => info.value?.bio || 'Dhamodhara Kannan (DK) — full-stack engineer working across .NET, Node, React and TypeScript.'),
-  ogUrl: `${BASE}/about`,
-  ogImage,
-  twitterCard: 'summary_large_image',
-  twitterImage: ogImage,
+  title: seoTitle,
+  description: seoDescription,
+  ...socialMeta({
+    title: seoTitle,
+    description: seoDescription.value,
+    url: `${BASE}/about`,
+    image: ogImage.value,
+    type: 'profile',
+  }),
 })
+
 useHead({
   bodyAttrs: { class: 'about' },
   link: [{ rel: 'canonical', href: `${BASE}/about` }],
+  script: [
+    // ProfilePage tells a search engine this page *is about a person* rather
+    // than being an ordinary page that happens to mention one — the clearest
+    // signal available for name queries.
+    {
+      type: 'application/ld+json',
+      innerHTML: computed(() =>
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ProfilePage',
+          '@id': `${BASE}/about#profilepage`,
+          url: `${BASE}/about`,
+          name: seoTitle,
+          description: seoDescription.value,
+          inLanguage: 'en',
+          isPartOf: { '@id': `${SITE_URL}/#website` },
+          mainEntity: personSchema({
+            info: info.value,
+            skills: skillsList.value,
+            experience: experienceList.value,
+            image: ogImage.value,
+          }),
+        }),
+      ),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(
+        breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+        ]),
+      ),
+    },
+  ],
 })
 </script>

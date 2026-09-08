@@ -44,10 +44,16 @@
 </template>
 
 <script setup lang="ts">
-const BASE = 'https://dkthecoder.online'
+const BASE = SITE_URL
 
-const { data } = await useFetch('/api/content/personal')
+const [{ data }, skillsFetch, experienceFetch] = await Promise.all([
+  useFetch('/api/content/personal'),
+  useFetch('/api/content/skills'),
+  useFetch('/api/content/experience'),
+])
 const info = computed(() => (data.value as any)?.info)
+const skillsList = computed(() => (skillsFetch.data.value as any[]) || [])
+const experienceList = computed(() => (experienceFetch.data.value as any[]) || [])
 
 // The desktop hero panel (.bg, ~col-lg-4 wide) was a plain CSS
 // background-image pointed straight at the raw source file — 900KB at
@@ -77,17 +83,28 @@ const heroTagline = computed(() => {
   return firstSentence || bio.slice(0, 140)
 })
 
+const seoTitle = computed(
+  () => `${fullName.value} (DK) — Full Stack Engineer | .NET, Node & React`,
+)
+const seoDescription = computed(() =>
+  metaDescription(
+    info.value?.bio ||
+      'Dhamodhara Kannan (DK) is a full-stack software engineer in Chennai, India, building products across .NET, Node.js, React and TypeScript.',
+  ),
+)
+
 useSeoMeta({
-  title: computed(() => `${fullName.value} (DK) – Full Stack Developer Portfolio`),
-  description: computed(() => info.value?.bio || 'Portfolio of Dhamodhara Kannan, also known as DK – a full-stack software engineer crafting clean & user-friendly web experiences.'),
-  keywords: 'Dhamodhara Kannan, DK, DK portfolio, DK software engineer, Dhamodhara Kannan software engineer, Dhamodhara Kannan portfolio, full stack developer, web developer',
-  ogTitle: computed(() => `${fullName.value} (DK) – Full Stack Developer Portfolio`),
-  ogDescription: computed(() => info.value?.bio || 'Portfolio of Dhamodhara Kannan, also known as DK – a full-stack software engineer crafting clean & user-friendly web experiences.'),
-  ogUrl: `${BASE}/`,
-  ogImage,
-  twitterCard: 'summary_large_image',
-  twitterImage: ogImage,
+  title: seoTitle,
+  description: seoDescription,
+  ...socialMeta({
+    title: seoTitle.value,
+    description: seoDescription.value,
+    url: `${BASE}/`,
+    image: ogImage.value,
+    type: 'profile',
+  }),
 })
+
 useHead({
   bodyAttrs: { class: 'home' },
   link: [
@@ -101,28 +118,20 @@ useHead({
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: computed(() => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        name: fullName.value,
-        alternateName: 'DK',
-        url: BASE,
-        jobTitle: info.value?.title || 'Full Stack Engineer',
-        description: info.value?.bio || '',
-        email: info.value?.contactEmail || info.value?.email || '',
-        sameAs: [info.value?.linkedinUrl, info.value?.githubUrl].filter(Boolean),
-        image: ogImage.value,
-      })),
+      innerHTML: computed(() =>
+        JSON.stringify(
+          personSchema({
+            info: info.value,
+            skills: skillsList.value,
+            experience: experienceList.value,
+            image: ogImage.value,
+          }),
+        ),
+      ),
     },
     {
       type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: 'Dhamodhara Kannan Portfolio',
-        alternateName: 'DK Portfolio',
-        url: BASE,
-      }),
+      innerHTML: JSON.stringify(webSiteSchema()),
     },
   ],
 })

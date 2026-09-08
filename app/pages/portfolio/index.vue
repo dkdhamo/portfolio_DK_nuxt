@@ -51,41 +51,65 @@
 </template>
 
 <script setup lang="ts">
-const BASE = 'https://dkthecoder.online'
-
-useSeoMeta({
-  title: 'Work – Dhamodhara Kannan (DK) | Full Stack Engineer Case Studies',
-  description: 'Case studies from Dhamodhara Kannan (DK), full-stack engineer: an agentic MCP server for Azure DevOps, a RAG knowledge assistant, a Java EE to Spring Boot migration, and more.',
-  keywords: 'Dhamodhara Kannan portfolio, DK portfolio, DK projects, full stack engineer case studies, MCP server, RAG assistant, Spring Boot migration',
-  ogTitle: 'Work – Dhamodhara Kannan (DK) | Full Stack Engineer Case Studies',
-  ogDescription: 'Case studies from Dhamodhara Kannan (DK), full-stack engineer: agentic AI tooling, RAG systems, API design, and legacy migration.',
-  ogUrl: `${BASE}/portfolio`,
-  ogImage: `${BASE}/img/blog/edited_pp.jpg`,
-  twitterCard: 'summary_large_image',
-  twitterImage: `${BASE}/img/blog/edited_pp.jpg`,
-})
-useHead({
-  bodyAttrs: { class: 'portfolio' },
-  link: [{ rel: 'canonical', href: `${BASE}/portfolio` }],
-})
+const BASE = SITE_URL
 
 const { data } = await useFetch('/api/projects')
 const projectList = computed(() => (data.value as any[]) || [])
 
+const seoTitle = 'Projects & Case Studies — Dhamodhara Kannan (DK), Full Stack Engineer'
+const seoDescription = metaDescription(
+  'Engineering case studies by Dhamodhara Kannan (DK): an agentic MCP server for Azure DevOps, a RAG knowledge assistant, and a Java EE to Spring Boot migration — each with the problem, the build and the measured outcome.',
+)
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ...socialMeta({
+    title: seoTitle,
+    description: seoDescription,
+    url: `${BASE}/portfolio`,
+    image: absoluteUrl('/img/blog/edited_pp.jpg'),
+  }),
+})
+
 useHead({
+  bodyAttrs: { class: 'portfolio' },
+  link: [{ rel: 'canonical', href: `${BASE}/portfolio` }],
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: computed(() => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'ItemList',
-        itemListElement: projectList.value.map((p: any, i: number) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          url: `${BASE}/portfolio/${p.slug}`,
-          name: p.title,
-        })),
-      })),
+      innerHTML: computed(() =>
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          '@id': `${BASE}/portfolio#collection`,
+          url: `${BASE}/portfolio`,
+          name: seoTitle,
+          description: seoDescription,
+          inLanguage: 'en',
+          isPartOf: { '@id': `${SITE_URL}/#website` },
+          about: { '@id': `${SITE_URL}/#person` },
+          mainEntity: {
+            '@type': 'ItemList',
+            numberOfItems: projectList.value.length,
+            itemListElement: projectList.value.map((p: any, i: number) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              url: `${BASE}/portfolio/${p.slug}`,
+              name: p.title,
+            })),
+          },
+        }),
+      ),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(
+        breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Work', path: '/portfolio' },
+        ]),
+      ),
     },
   ],
 })

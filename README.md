@@ -219,3 +219,41 @@ downloads are picked up with no markup. For anything else, add `data-track`:
 
 The value is stored verbatim as the event `target` and grouped under
 "Clicked links" in the dashboard.
+
+---
+
+## SEO
+
+Canonical host is **`https://www.dkthecoder.online`**. The apex domain
+308-redirects to `www`, so canonicals, `og:url`, JSON-LD `url` and the sitemap
+must all name the `www` host — pointing them at the apex makes a crawler
+follow a canonical into a redirect and splits ranking signals across two URLs
+for the same page. `app/utils/seo.ts` holds `SITE_URL`; `site.url` in
+`nuxt.config.ts` drives the sitemap. Change both together if the domain moves.
+
+Per-page metadata and structured data live in `app/utils/seo.ts`
+(auto-imported). Each page gets a unique title, a description trimmed to ~155
+characters, full Open Graph/Twitter tags, a canonical, and JSON-LD:
+
+| Page | Schema |
+|------|--------|
+| `/` | `Person` + `WebSite` |
+| `/about` | `ProfilePage` wrapping `Person` + `BreadcrumbList` |
+| `/portfolio` | `CollectionPage` + `ItemList` + `BreadcrumbList` |
+| `/portfolio/<slug>` | `CreativeWork` + `BreadcrumbList` |
+| `/contact` | `ContactPage` + `BreadcrumbList` |
+
+The `Person` node is assembled from the database, not hardcoded — `knowsAbout`
+comes from the skills table, `worksFor` and `alumniOf` from the most recent
+work and education rows. Editing content in `/admin` keeps the structured data
+accurate automatically.
+
+Everything references one entity via `@id` (`<SITE_URL>/#person`), so each page
+reinforces the same Person rather than describing a new one. `alternateName`
+carries the name variants people actually search for (`DK`, `dkthecoder`, …),
+which is what connects those queries to this person.
+
+**Note on `<meta name="keywords">`:** it was removed. Google has ignored it
+since 2009 and Bing treats it as a spam signal. Keyword coverage now lives in
+titles, descriptions, headings, body copy and structured data, which are the
+things that actually get read.

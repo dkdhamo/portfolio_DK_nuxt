@@ -92,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-const BASE = 'https://dkthecoder.online'
+const BASE = SITE_URL
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 
@@ -129,43 +129,74 @@ const ogImage = computed(() => {
   return img.startsWith('http') ? img : `${BASE}${img}`
 })
 
+// Title reads "<Project> — <Type> Case Study by Dhamodhara Kannan (DK)":
+// the project name is what someone searches, the rest carries the name and
+// the category without repeating boilerplate across every case study.
+const seoTitle = computed(
+  () => `${project.value.title} — ${project.value.projectType} Case Study by Dhamodhara Kannan (DK)`,
+)
+
+const seoDescription = computed(() =>
+  metaDescription(
+    project.value.summary ||
+      [project.value.title, project.value.outcome].filter(Boolean).join(' — ') ||
+      `${project.value.title}, a project by Dhamodhara Kannan (DK), full-stack engineer.`,
+  ),
+)
+
 useSeoMeta({
-  title: computed(() => `${project.value.title} – Case Study | Dhamodhara Kannan (DK)`),
-  description: computed(() => project.value.summary || `${project.value.title} — a project by Dhamodhara Kannan, full-stack engineer.`),
-  ogTitle: computed(() => `${project.value.title} – Case Study | Dhamodhara Kannan (DK)`),
-  ogDescription: computed(() => project.value.summary || ''),
-  ogUrl: computed(() => `${BASE}/portfolio/${slug.value}`),
-  ogImage,
-  twitterCard: 'summary_large_image',
-  twitterImage: ogImage,
+  title: seoTitle,
+  description: seoDescription,
+  ...socialMeta({
+    title: seoTitle.value,
+    description: seoDescription.value,
+    url: `${BASE}/portfolio/${slug.value}`,
+    image: ogImage.value,
+    type: 'article',
+  }),
 })
+
 useHead({
   bodyAttrs: { class: 'portfolio' },
   link: [{ rel: 'canonical', href: computed(() => `${BASE}/portfolio/${slug.value}`) }],
   script: [
     {
       type: 'application/ld+json',
-      innerHTML: computed(() => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'CreativeWork',
-        name: project.value.title,
-        description: project.value.summary || '',
-        url: `${BASE}/portfolio/${slug.value}`,
-        image: ogImage.value,
-        author: { '@type': 'Person', name: 'Dhamodhara Kannan', alternateName: 'DK', url: BASE },
-      })),
+      innerHTML: computed(() =>
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          '@id': `${BASE}/portfolio/${slug.value}#work`,
+          name: project.value.title,
+          headline: project.value.title,
+          description: seoDescription.value,
+          url: `${BASE}/portfolio/${slug.value}`,
+          image: ogImage.value,
+          inLanguage: 'en',
+          isPartOf: { '@id': `${SITE_URL}/#website` },
+          // Both author and creator point at the same Person node so every
+          // case study reinforces the one entity rather than creating new ones.
+          author: { '@id': `${SITE_URL}/#person` },
+          creator: { '@id': `${SITE_URL}/#person` },
+          ...(project.value.year ? { dateCreated: String(project.value.year) } : {}),
+          ...(project.value.tools
+            ? { keywords: String(project.value.tools).split(',').map((t: string) => t.trim()).filter(Boolean) }
+            : {}),
+          ...(project.value.projectType ? { genre: project.value.projectType } : {}),
+        }),
+      ),
     },
     {
       type: 'application/ld+json',
-      innerHTML: computed(() => JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
-          { '@type': 'ListItem', position: 2, name: 'Work', item: `${BASE}/portfolio` },
-          { '@type': 'ListItem', position: 3, name: project.value.title, item: `${BASE}/portfolio/${slug.value}` },
-        ],
-      })),
+      innerHTML: computed(() =>
+        JSON.stringify(
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Work', path: '/portfolio' },
+            { name: project.value.title, path: `/portfolio/${slug.value}` },
+          ]),
+        ),
+      ),
     },
   ],
 })

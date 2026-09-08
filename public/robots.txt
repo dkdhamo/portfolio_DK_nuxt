@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://dkthecoder.online/sitemap.xml
+Sitemap: https://www.dkthecoder.online/sitemap.xml
